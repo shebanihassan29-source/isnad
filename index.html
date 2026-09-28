@@ -233,7 +233,7 @@
         (function() {
             // ===== إعدادات المنصة (عدّل هنا فقط) =====
             var CONFIG = {
-                openalexKey: '',  // مفتاح OpenAlex المجاني: openalex.org/settings/api
+                openalexKey: 'T7zlaYDlLoutn6776NMAdJ',  // مفتاح OpenAlex المجاني: openalex.org/settings/api
                 mailto: ''        // بريد اختياري لتعريف الطلبات لدى Crossref/OpenAlex
             };
             var uidSeq = 0;
@@ -265,8 +265,9 @@
                 doaj: '#b8860b', gbooks: '#2f7d32', iarchive: '#7a4a1e', heritage: '#8a4b6b'
             };
             // مصادر لا تملك واجهة برمجية عامة — تُفتح كروابط بحث مباشرة في موقعها
+            function scholarUrl(q) { return 'https://scholar.google.com/scholar?hl=' + state.lang + '&q=' + encodeURIComponent(q) + (state.yfrom ? '&as_ylo=' + state.yfrom : '') + (state.yto ? '&as_yhi=' + state.yto : ''); }
             var EXT = {
-                scholar: { ar: 'Google Scholar', en: 'Google Scholar', build: function(q) { return 'https://scholar.google.com/scholar?q=' + encodeURIComponent(q); } },
+                scholar: { ar: 'Google Scholar', en: 'Google Scholar', build: function(q) { return scholarUrl(q); } },
                 mandumah: { ar: 'دار المنظومة', en: 'Dar Al Mandumah', build: function(q) { return 'https://search.mandumah.com/Search/Results?lookfor=' + encodeURIComponent(q); } },
                 shamela: { ar: 'المكتبة الشاملة', en: 'Al-Shamela', build: function(q) { return 'https://shamela.ws/search?q=' + encodeURIComponent(q); } }
             };
@@ -406,21 +407,25 @@
                     .replace(/\u0629/g, '\u0647')
                     .toLowerCase().trim();
             }
+            var STOP = ['and','the','for','with','from','into','that','this','are','was','how','what','not','its','على','الى','إلى','الي','عند','بين','هذا','هذه','التي','الذي','ذلك','كان','كما'];
             function searchHeritage(q) {
                 var nq = normArabic(q);
-                var toks = nq.split(/\s+/).filter(function(x) { return x.length >= 2; });
+                var toks = nq.split(/\s+/).filter(function(x) { return x.length >= 3 && STOP.indexOf(x) < 0; });
                 if (!toks.length) return [];
                 var out = HERITAGE.filter(function(it) {
                     if (state.field !== 'all' && it.field !== state.field) return false;
                     var hay = normArabic(it.title.ar + ' ' + it.authors.ar + ' ' + it.keys.ar.join(' ') + ' ' + it.title.en + ' ' + it.authors.en + ' ' + it.keys.en.join(' '));
-                    return toks.some(function(tk) { return hay.indexOf(tk) >= 0; });
+                    var sc = toks.filter(function(tk) { return hay.indexOf(tk) >= 0; }).length;
+                    it._hs = sc;
+                    return sc >= (toks.length >= 3 ? 2 : 1);
                 });
+                out.sort(function(a, b) { return b._hs - a._hs; });
                 return out.map(function(it) { return Object.assign({}, it, { srcs: it.srcs.slice(), keys: it.keys, abs: it.abs }); });
             }
             var D = {
                 ar: {
                     brand: 'إسناد', tag: 'منصة العلم والمصدر',
-                    proto: 'نسخة متصلة 2.1',
+                    proto: 'نسخة متصلة 2.2',
                     searchPh: 'اكتب أي موضوع، عنوان، مؤلف أو DOI…', search: 'بحث',
                     ai: 'إظهار الملخص والمصطلحات', aiHint: 'يعرض ملخص العمل الفعلي كما ورد في قاعدة البيانات',
                     from: 'من سنة', to: 'إلى سنة', field: 'توجيه المجال (اختياري)', sort: 'الترتيب',
@@ -438,7 +443,7 @@
                     printT: 'قائمة المراجع — إسناد', printNote: 'مولّدة آلياً بصيغة',
                     aiQ: '✦ جرّب موضوعاً عشوائياً', cites: 'استشهاد',
                     empty: 'لا توجد نتائج مطابقة من القواعد الحية — جرّب توسيع نطاق السنوات، تقليل عوامل التصفية، أو صياغة أدق للعبارة.',
-                    srcLabel: 'قواعد البيانات المتصلة الآن', all: 'الكل',
+                    gsHint: 'يفتح Google Scholar في نافذة جديدة بنفس العبارة ونطاق السنوات (لا توجد واجهة برمجية عامة)', srcLabel: 'قواعد البيانات المتصلة الآن', all: 'الكل',
                     startPrompt: 'اكتب أي موضوع (تقني، طبي، تربوي، إنساني…) واضغط بحث — سيتم الاستعلام مباشرة من قواعد بيانات علمية حقيقية.',
                     searching: 'جارٍ الاستعلام من القواعد الحية…', noAbs: 'لا يتوفر ملخص لهذا العمل من قاعدة البيانات المصدر.',
                     partialErr: 'تعذّر الوصول الآن إلى: ',
@@ -447,7 +452,7 @@
                 },
                 en: {
                     brand: 'Isnad', tag: 'The Knowledge & Source Platform',
-                    proto: 'Connected build 2.1',
+                    proto: 'Connected build 2.2',
                     searchPh: 'Search any topic, title, author or DOI…', search: 'Search',
                     ai: 'Show summary & terms', aiHint: "Shows the work's actual abstract as returned by the database",
                     from: 'From year', to: 'To year', field: 'Field boost (optional)', sort: 'Sort by',
@@ -464,7 +469,7 @@
                     printT: 'Reference list — Isnad platform', printNote: 'Auto-generated in',
                     aiQ: '✦ Try a random topic', cites: 'citations',
                     empty: 'No matching live results — try widening the year range, reducing filters, or rephrasing the query.',
-                    srcLabel: 'Databases currently connected', all: 'All',
+                    gsHint: 'Opens Google Scholar in a new tab with the same query and year range (no public API exists)', srcLabel: 'Databases currently connected', all: 'All',
                     startPrompt: 'Type any topic (technical, medical, educational, humanities…) and hit search — this queries real scholarly databases live.',
                     searching: 'Querying live databases…', noAbs: 'No abstract available for this work from the source database.',
                     partialErr: 'Could not reach right now: ',
@@ -480,7 +485,7 @@
             var state = {
                 lang: 'ar', q: '', srcs: new Set(['all']), yfrom: 0, yto: 0, field: 'all', sort: 'rel',
                 basket: [], style: 'apa', format: 'pdf', ai: true, expanded: null, aiId: null,
-                results: [], loading: false, searched: false, errSrcs: [],
+                results: [], loading: false, searched: false, errSrcs: [], errWhy: {},
                 page: 1, filterType: null, filterSrc: null
             };
             var PAGE_SIZE = 10;
@@ -489,6 +494,7 @@
             function t(k) { return D[state.lang][k]; }
             function itemTitle(it) { return it.title[state.lang]; }
             function itemAuthors(it) { return it.authors[state.lang]; }
+            function authorsLabel(it) { var a = itemAuthors(it); return (!a || a === 'Unknown') ? (state.lang === 'ar' ? 'مؤلف غير معروف' : 'Unknown author') : a; }
             function itemVenue(it) { return it.venue[state.lang]; }
             function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
             function parseAuthors(s) { return (s || '').split(';').map(function(x) { return x.trim(); }).filter(Boolean); }
@@ -605,6 +611,7 @@
                 for (var w2 in inv) { inv[w2].forEach(function(i) { words[i] = w2; }); }
                 return words.filter(Boolean).join(' ');
             }
+            function whyFail(e) { var m = e && e.message || ''; var st = m.split(':')[1]; if (st) return st; return (e && e.name === 'AbortError') ? 'timeout' : 'network/CORS'; }
             function safeUrl(u) { u = String(u || '').trim(); return /^https?:\/\//i.test(u) ? u : ''; }
             function stripXml(s) { return (s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(); }
             function normTitle(s) { return (s || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim(); }
@@ -626,7 +633,7 @@
                 var url = 'https://api.openalex.org/works?search=' + encodeURIComponent(q) + '&per-page=10' + (CONFIG.openalexKey ? '&api_key=' + encodeURIComponent(CONFIG.openalexKey) : '') + (CONFIG.mailto ? '&mailto=' + encodeURIComponent(CONFIG.mailto) : '');
                 if (state.yfrom) url += '&filter=from_publication_date:' + state.yfrom + '-01-01';
                 if (state.yto) url += (state.yfrom ? ',' : '&filter=') + 'to_publication_date:' + state.yto + '-12-31';
-                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('openalex'); return r.json(); }).then(function(data) {
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('openalex:' + r.status); return r.json(); }).then(function(data) {
                     return (data.results || []).map(function(w) {
                         var venue = (w.primary_location && w.primary_location.source && w.primary_location.source.display_name) || (w.host_venue && w.host_venue.display_name) || '';
                         var doi = w.doi ? w.doi.replace('https://doi.org/', '') : null;
@@ -646,7 +653,7 @@
                             keys: { ar: concepts, en: concepts }
                         };
                     });
-                }).catch(function() { state.errSrcs.push('openalex'); return []; });
+                }).catch(function(e) { state.errSrcs.push('openalex'); state.errWhy['openalex'] = whyFail(e); return []; });
             }
 
             function searchCrossref() {
@@ -656,7 +663,7 @@
                 if (state.yfrom) filt.push('from-pub-date:' + state.yfrom + '-01-01');
                 if (state.yto) filt.push('until-pub-date:' + state.yto + '-12-31');
                 if (filt.length) url += '&filter=' + filt.join(',');
-                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('crossref'); return r.json(); }).then(function(data) {
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('crossref:' + r.status); return r.json(); }).then(function(data) {
                     return ((data.message && data.message.items) || []).map(function(w) {
                         var title = (w.title && w.title[0]) || '(بلا عنوان)';
                         var venue = (w['container-title'] && w['container-title'][0]) || w.publisher || '';
@@ -672,14 +679,14 @@
                             abs: { ar: abs, en: abs }, keys: { ar: [], en: [] }
                         };
                     });
-                }).catch(function() { state.errSrcs.push('crossref'); return []; });
+                }).catch(function(e) { state.errSrcs.push('crossref'); state.errWhy['crossref'] = whyFail(e); return []; });
             }
 
             function searchSemantic() {
                 var q = effectiveQuery();
                 var url = 'https://api.semanticscholar.org/graph/v1/paper/search?query=' + encodeURIComponent(q) + '&limit=10&fields=title,abstract,year,authors,venue,citationCount,externalIds,url,publicationTypes,openAccessPdf';
                 if (state.yfrom || state.yto) url += '&year=' + (state.yfrom || '') + '-' + (state.yto || '');
-                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('semantic'); return r.json(); }).then(function(data) {
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('semantic:' + r.status); return r.json(); }).then(function(data) {
                     return (data.data || []).map(function(w) {
                         var title = w.title || '(بلا عنوان)';
                         var doi = w.externalIds && w.externalIds.DOI;
@@ -695,18 +702,18 @@
                             abs: { ar: abs, en: abs }, keys: { ar: [], en: [] }
                         };
                     });
-                }).catch(function() { state.errSrcs.push('semantic'); return []; });
+                }).catch(function(e) { state.errSrcs.push('semantic'); state.errWhy['semantic'] = whyFail(e); return []; });
             }
 
             function searchPubmed() {
                 var q = effectiveQuery();
                 var esearch = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=10&term=' + encodeURIComponent(q);
                 if (state.yfrom || state.yto) esearch += '&datetype=pdat&mindate=' + (state.yfrom || 1900) + '&maxdate=' + (state.yto || new Date().getFullYear());
-                return fetchWithTimeout(esearch).then(function(r) { if (!r.ok) throw new Error('pubmed'); return r.json(); }).then(function(sd) {
+                return fetchWithTimeout(esearch).then(function(r) { if (!r.ok) throw new Error('pubmed:' + r.status); return r.json(); }).then(function(sd) {
                     var ids = (sd.esearchresult && sd.esearchresult.idlist) || [];
                     if (!ids.length) return [];
                     var esum = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=' + ids.join(',');
-                    return fetchWithTimeout(esum).then(function(r2) { if (!r2.ok) throw new Error('pubmed'); return r2.json(); }).then(function(data) {
+                    return fetchWithTimeout(esum).then(function(r2) { if (!r2.ok) throw new Error('pubmed:' + r2.status); return r2.json(); }).then(function(data) {
                         var res = data.result || {};
                         return ids.map(function(id) {
                             var w = res[id]; if (!w) return null;
@@ -724,13 +731,13 @@
                             };
                         }).filter(Boolean);
                     });
-                }).catch(function() { state.errSrcs.push('pubmed'); return []; });
+                }).catch(function(e) { state.errSrcs.push('pubmed'); state.errWhy['pubmed'] = whyFail(e); return []; });
             }
 
             function searchDOAJ() {
                 var q = effectiveQuery();
                 var url = 'https://doaj.org/api/search/articles/' + encodeURIComponent(q) + '?pageSize=10';
-                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('doaj'); return r.json(); }).then(function(data) {
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('doaj:' + r.status); return r.json(); }).then(function(data) {
                     return ((data && data.results) || []).map(function(w) {
                         var bj = w.bibjson || {};
                         var title = bj.title || '(بلا عنوان)';
@@ -750,13 +757,13 @@
                             abs: { ar: abs, en: abs }, keys: { ar: keys, en: keys }
                         };
                     });
-                }).catch(function() { state.errSrcs.push('doaj'); return []; });
+                }).catch(function(e) { state.errSrcs.push('doaj'); state.errWhy['doaj'] = whyFail(e); return []; });
             }
 
             function searchGoogleBooks() {
                 var q = effectiveQuery();
                 var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(q) + '&maxResults=10';
-                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('gbooks'); return r.json(); }).then(function(data) {
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('gbooks:' + r.status); return r.json(); }).then(function(data) {
                     return ((data && data.items) || []).map(function(w) {
                         var vi = w.volumeInfo || {};
                         var title = vi.title || '(بلا عنوان)';
@@ -774,13 +781,13 @@
                             abs: { ar: abs, en: abs }, keys: { ar: keys, en: keys }
                         };
                     });
-                }).catch(function() { state.errSrcs.push('gbooks'); return []; });
+                }).catch(function(e) { state.errSrcs.push('gbooks'); state.errWhy['gbooks'] = whyFail(e); return []; });
             }
 
             function searchInternetArchive() {
                 var q = effectiveQuery();
                 var url = 'https://archive.org/advancedsearch.php?q=' + encodeURIComponent(q) + '+AND+mediatype:texts&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=year&fl[]=publisher&fl[]=description&rows=10&page=1&output=json';
-                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('iarchive'); return r.json(); }).then(function(data) {
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('iarchive:' + r.status); return r.json(); }).then(function(data) {
                     var docs = (data && data.response && data.response.docs) || [];
                     return docs.map(function(w) {
                         var title = w.title || '(بلا عنوان)';
@@ -797,7 +804,7 @@
                             abs: { ar: abs, en: abs }, keys: { ar: [], en: [] }
                         };
                     });
-                }).catch(function() { state.errSrcs.push('iarchive'); return []; });
+                }).catch(function(e) { state.errSrcs.push('iarchive'); state.errWhy['iarchive'] = whyFail(e); return []; });
             }
 
             function dedupe(items) {
@@ -824,7 +831,7 @@
 
             function runSearch() {
                 var q = state.q.trim();
-                state.expanded = null; state.aiId = null; state.errSrcs = []; state.page = 1; state.filterType = null; state.filterSrc = null;
+                state.expanded = null; state.aiId = null; state.errSrcs = []; state.errWhy = {}; state.page = 1; state.filterType = null; state.filterSrc = null;
                 if (!q) { state.results = []; state.searched = false; render(); return; }
                 state.loading = true; state.searched = true; render();
                 var my = ++reqToken;
@@ -846,6 +853,17 @@
                     if (state.yfrom) merged = merged.filter(function(it) { return !it.year || it.year >= state.yfrom; });
                     if (state.yto) merged = merged.filter(function(it) { return !it.year || it.year <= state.yto; });
                     merged.forEach(function(it) { it.id = 'r' + (++uidSeq); it.url = safeUrl(it.url); });
+                    if (state.sort === 'rel') {
+                        var rt = normArabic(q).split(/[^\p{L}\p{N}]+/u).filter(function(x) { return x.length >= 3 && STOP.indexOf(x) < 0; });
+                        if (rt.length) {
+                            merged.forEach(function(it, i) {
+                                var ti = normArabic(it.title.ar + ' ' + it.title.en), ot = normArabic((it.abs.en || '') + ' ' + (it.abs.ar || '') + ' ' + (it.venue.en || '') + ' ' + (it.keys.en || []).join(' '));
+                                var sc = 0; rt.forEach(function(tk) { if (ti.indexOf(tk) >= 0) sc += 2; else if (ot.indexOf(tk) >= 0) sc += 1; });
+                                it._s = sc / (2 * rt.length) + Math.log10(1 + (it.cites || 0)) * 0.03; it._i = i;
+                            });
+                            merged.sort(function(a, b) { return (b._s - a._s) || (a._i - b._i); });
+                        }
+                    }
                     if (state.sort === 'yd') merged.sort(function(a, b) { return b.year - a.year; });
                     else if (state.sort === 'ya') merged.sort(function(a, b) { return a.year - b.year; });
                     else if (state.sort === 'c') merged.sort(function(a, b) { return (b.cites || 0) - (a.cites || 0); });
@@ -867,7 +885,7 @@
 
             // ============ عناصر مستوحاة من واجهة OpenAlex: توزيع السنوات، فلاتر جانبية حية، ترقيم صفحات ============
             function yearHistogram() {
-                var withYear = state.results.filter(function(it) { return it.year; });
+                var withYear = state.results.filter(function(it) { return it.year && it.year >= 1900; });
                 if (withYear.length < 4) return '';
                 var minY = Math.min.apply(null, withYear.map(function(it) { return it.year; }));
                 var maxY = Math.max.apply(null, withYear.map(function(it) { return it.year; }));
@@ -917,7 +935,7 @@
                 h += '<button class="btn" id="langBtn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.5);color:#fff">' + SVG.tr + ' ' + (L === 'ar' ? 'English' : 'العربية') + '</button></div>';
                 h += '<div style="max-width:1200px;margin:auto"><div class="card" style="margin-bottom:16px">';
                 h += '<div style="display:flex;gap:8px;margin-bottom:12px"><input class="inp" id="q" aria-label="' + t('search') + '" placeholder="' + t('searchPh') + '" value="' + esc(state.q) + '" style="flex:1">';
-                h += '<button class="btn solid" id="goBtn"' + (state.loading ? ' disabled' : '') + '>' + (state.loading ? '<span class="spinner"></span>' : SVG.search) + ' ' + t('search') + '</button></div>';
+                h += '<button class="btn solid" id="goBtn"' + (state.loading ? ' disabled' : '') + '>' + (state.loading ? '<span class="spinner"></span>' : SVG.search) + ' ' + t('search') + '</button><button class="btn" id="gsBtn" type="button" title="' + t('gsHint') + '">' + SVG.link + ' Google Scholar</button></div>';
                 h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">';
                 h += '<div class="switch' + (state.ai ? ' on' : '') + '" id="aiSw" role="switch" tabindex="0" aria-checked="' + state.ai + '"></div><span style="font-size:13px;color:#1f3b52">' + t('ai') + ' <span style="color:#35566f">· ' + t('aiHint') + '</span></span>';
                 h += '<button class="chip" id="aiQBtn" style="margin-inline-start:auto">' + t('aiQ') + '</button></div>';
@@ -947,9 +965,9 @@
                 h += '<div class="grid"><div>';
                 var nSrc = {}; state.results.forEach(function(it) { it.srcs.forEach(function(s) { nSrc[s] = 1; }); });
                 h += '<div style="font-size:15px;font-weight:700;margin-bottom:12px">' + t('results');
-                if (state.searched && !state.loading) h += ' <span style="color:#35566f;font-weight:400;font-size:13px">— ' + state.results.length + ' ' + t('found1') + ' ' + Object.keys(nSrc).length + ' ' + t('found2') + '</span>';
+                if (state.searched && !state.loading) h += ' <span style="color:#35566f;font-weight:400;font-size:13px">— ' + state.results.length + (function() { var ln = Object.keys(nSrc).filter(function(k) { return k !== 'heritage'; }).length; return ln ? ' ' + t('found1') + ' ' + ln + ' ' + t('found2') : ''; })() + '</span>';
                 h += '</div>';
-                if (state.errSrcs.length) h += '<div style="font-size:12px;color:#a55;margin-bottom:10px">' + t('partialErr') + state.errSrcs.map(function(s) { return SRCS[s] ? SRCS[s][L] : s; }).join('، ') + '</div>';
+                if (state.errSrcs.length) h += '<div style="font-size:12px;color:#a55;margin-bottom:10px">' + t('partialErr') + state.errSrcs.map(function(s) { return (SRCS[s] ? SRCS[s][L] : s) + (state.errWhy[s] ? ' [' + state.errWhy[s] + ']' : ''); }).join('، ') + '</div>';
                 if (!state.searched) h += '<div class="card" style="color:#1f3b52">' + t('startPrompt') + '</div>';
                 else if (state.loading) h += '<div class="card" role="status" aria-live="polite" style="color:#1f3b52"><span class="spinner"></span>' + t('searching') + '</div>';
                 else if (!state.results.length) h += '<div class="card" style="color:#1f3b52">' + t('empty') + '</div>';
@@ -977,8 +995,8 @@
                 pg.items.forEach(function(it) {
                     var open_ = state.expanded === it.id;
                     h += '<div class="res" data-id="' + it.id + '">';
-                    h += '<div style="font-size:15px;font-weight:700;line-height:1.5;margin-bottom:6px">' + esc(itemTitle(it)) + '</div>';
-                    h += '<div class="meta" style="margin-bottom:8px">' + esc(itemAuthors(it)) + ' · ' + esc(itemVenue(it)) + (it.year ? (' · ' + it.year + (L === 'ar' ? 'م' : '')) : '') + '</div>';
+                    h += '<div style="font-size:15px;font-weight:700;line-height:1.5;margin-bottom:6px"><bdi>' + esc(itemTitle(it)) + '</bdi></div>';
+                    h += '<div class="meta" style="margin-bottom:8px"><bdi>' + esc(authorsLabel(it)) + '</bdi> · <bdi>' + esc(itemVenue(it)) + '</bdi>' + (it.year ? (' · <bdi>' + it.year + ((L === 'ar' && /[\u0600-\u06FF]/.test(itemTitle(it))) ? 'م' : '') + '</bdi>') : '') + '</div>';
                     h += '<div style="margin-bottom:8px"><span class="badge">' + TYPES[it.type][L] + '</span>' + (it.oa ? '<span class="badge" style="background:#2f7d32;color:#fff;font-weight:600">' + (L === 'ar' ? 'وصول مفتوح' : 'Open Access') + '</span>' : '') + it.srcs.map(function(s) { return '<span class="badge" style="background:' + (SRC_COLOR[s] || '#1668a8') + ';color:#fff;font-weight:600">' + SRCS[s][L] + '</span>'; }).join('') + (it.cites ? '<span class="badge">' + it.cites.toLocaleString(L === 'ar' ? 'ar-EG' : 'en-US') + ' ' + t('cites') + '</span>' : '') + '</div>';
                     h += '<div class="res-actions" data-stop="1">';
                     if (it.url) h += '<a class="act" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">' + SVG.link + ' ' + t('open') + '</a>';
@@ -1042,6 +1060,8 @@
                 if (langBtn) langBtn.onclick = function() { state.lang = state.lang === 'ar' ? 'en' : 'ar'; render(); };
                 var q = document.getElementById('q');
                 var goBtn = document.getElementById('goBtn');
+                var gsBtn = document.getElementById('gsBtn');
+                if (gsBtn) gsBtn.onclick = function() { var qq = (document.getElementById('q') || {}).value || state.q; qq = (qq || '').trim(); if (!qq) return; window.open(scholarUrl(qq), '_blank', 'noopener'); };
                 function doSearch(e) { if (e) e.preventDefault(); if (state.loading) return; if (q) state.q = q.value.trim(); runSearch(); }
                 if (goBtn) goBtn.onclick = doSearch;
                 if (q) q.oninput = function() { state.q = q.value; };

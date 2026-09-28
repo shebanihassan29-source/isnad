@@ -234,6 +234,7 @@
             // ===== إعدادات المنصة (عدّل هنا فقط) =====
             var CONFIG = {
                 openalexKey: 'T7zlaYDlLoutn6776NMAdJ',  // مفتاح OpenAlex المجاني: openalex.org/settings/api
+                gbooksKey: '',    // مفتاح Google Books (اختياري، يُنصح بتقييده بنطاق الموقع)
                 mailto: ''        // بريد اختياري لتعريف الطلبات لدى Crossref/OpenAlex
             };
             var uidSeq = 0;
@@ -425,7 +426,7 @@
             var D = {
                 ar: {
                     brand: 'إسناد', tag: 'منصة العلم والمصدر',
-                    proto: 'نسخة متصلة 2.2',
+                    proto: 'نسخة متصلة 2.3',
                     searchPh: 'اكتب أي موضوع، عنوان، مؤلف أو DOI…', search: 'بحث',
                     ai: 'إظهار الملخص والمصطلحات', aiHint: 'يعرض ملخص العمل الفعلي كما ورد في قاعدة البيانات',
                     from: 'من سنة', to: 'إلى سنة', field: 'توجيه المجال (اختياري)', sort: 'الترتيب',
@@ -452,7 +453,7 @@
                 },
                 en: {
                     brand: 'Isnad', tag: 'The Knowledge & Source Platform',
-                    proto: 'Connected build 2.2',
+                    proto: 'Connected build 2.3',
                     searchPh: 'Search any topic, title, author or DOI…', search: 'Search',
                     ai: 'Show summary & terms', aiHint: "Shows the work's actual abstract as returned by the database",
                     from: 'From year', to: 'To year', field: 'Field boost (optional)', sort: 'Sort by',
@@ -762,7 +763,7 @@
 
             function searchGoogleBooks() {
                 var q = effectiveQuery();
-                var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(q) + '&maxResults=10';
+                var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(q) + '&maxResults=10' + (CONFIG.gbooksKey ? '&key=' + encodeURIComponent(CONFIG.gbooksKey) : '');
                 return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('gbooks:' + r.status); return r.json(); }).then(function(data) {
                     return ((data && data.items) || []).map(function(w) {
                         var vi = w.volumeInfo || {};
@@ -810,16 +811,25 @@
             function dedupe(items) {
                 var out = [], seen = {};
                 items.forEach(function(it) {
-                    var key = it.doi ? ('doi:' + it.doi.toLowerCase()) : ('t:' + normTitle(it.title.en).slice(0, 90) + ':' + it.year);
-                    if (seen[key]) {
-                        var ex = seen[key];
+                    var keys = [];
+                    if (it.doi) keys.push('doi:' + it.doi.toLowerCase());
+                    var nt = normTitle(normArabic(it.title.en));
+                    if (nt.length >= 20) keys.push('t:' + nt.slice(0, 90) + ':' + it.year);
+                    else if (!it.doi) keys.push('t:' + nt + ':' + it.year);
+                    var ex = null;
+                    for (var i = 0; i < keys.length && !ex; i++) ex = seen[keys[i]] || null;
+                    if (ex) {
                         it.srcs.forEach(function(s) { if (ex.srcs.indexOf(s) < 0) ex.srcs.push(s); });
                         if ((it.abs.en || '').length > (ex.abs.en || '').length) ex.abs = it.abs;
                         if ((it.cites || 0) > (ex.cites || 0)) ex.cites = it.cites;
                         if ((!ex.keys.en || !ex.keys.en.length) && it.keys.en && it.keys.en.length) ex.keys = it.keys;
                         if (!ex.doi && it.doi) { ex.doi = it.doi; ex.url = it.url; }
                         if (it.oa && !ex.oa) ex.oa = true;
-                    } else { seen[key] = it; out.push(it); }
+                        keys.forEach(function(k) { if (!seen[k]) seen[k] = ex; });
+                    } else {
+                        keys.forEach(function(k) { seen[k] = it; });
+                        out.push(it);
+                    }
                 });
                 return out;
             }
@@ -840,7 +850,7 @@
                 if (srcs.indexOf('openalex') >= 0) jobs.push(searchOpenAlex());
                 if (srcs.indexOf('crossref') >= 0) jobs.push(searchCrossref());
                 if (srcs.indexOf('semantic') >= 0) jobs.push(searchSemantic());
-                if (srcs.indexOf('pubmed') >= 0) jobs.push(searchPubmed());
+                if (srcs.indexOf('pubmed') >= 0 && !(/[\u0600-\u06FF]/.test(q) && !/[A-Za-z]/.test(q))) jobs.push(searchPubmed());
                 if (srcs.indexOf('doaj') >= 0) jobs.push(searchDOAJ());
                 if (srcs.indexOf('gbooks') >= 0) jobs.push(searchGoogleBooks());
                 if (srcs.indexOf('iarchive') >= 0) jobs.push(searchInternetArchive());

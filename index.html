@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>إسناد — منصة العلم والمصدر | Isnad</title>
+    <meta name="description" content="إسناد: محرك بحث أكاديمي حي في قواعد بيانات علمية مفتوحة مع سلة مراجع وتصدير التوثيق.">
+    <meta name="theme-color" content="#1668a8">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%231668a8%27/%3E%3Ctext x=%2732%27 y=%2745%27 font-size=%2742%27 text-anchor=%27middle%27 fill=%27%23fff%27 font-family=%27Arial%27%3E%D8%A5%3C/text%3E%3C/svg%3E">
+    <style>
+        body {
+            font-family: 'Calibri', Tahoma, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(180deg, #bfe3fb 0%, #e6f5fd 420px, #e6f5fd 100%);
+            background-attachment: fixed;
+            color: #0b2540;
+            margin: 0;
+            padding: 16px
+        }
+        #srj {
+            font-family: 'Calibri', Tahoma, 'Segoe UI', Arial, sans-serif;
+            color: #0b2540;
+            font-size: 15px
+        }
+        #srj button,
+        #srj input,
+        #srj select {
+            font: inherit
+        }
+        #srj .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #7fb8e6;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            background: transparent;
+            color: #0b2540;
+            transition: background .15s ease-out
+        }
+        #srj .btn:hover {
+            background: #dcf0ff
+        }
+        #srj .btn.solid {
+            background: #1668a8;
+            color: #ffffff;
+            border-color: #1668a8;
+            font-weight: 700
+        }
+        #srj .chip {
+            border: 1.5px solid #7fb8e6;
+            border-radius: 6px;
+            padding: 5px 13px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            background: #eaf6ff;
+            color: #0b2540;
+            transition: all .15s ease-out
+        }
+        #srj .chip.on {
+            background: #1668a8;
+            color: #ffffff;
+            border-color: #1668a8
+        }
+        #srj .inp {
+            border: 1px solid #7fb8e6;
+            border-radius: 10px;
+            padding: 10px 14px;
+            background: #ffffff;
+            color: #0b2540;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box
+        }
+        #srj .inp:focus {
+            border-color: #0b2540
+        }
+        #srj select.inp {
+            width: auto;
+            padding: 6px 10px;
+            font-size: 13px;
+            border-radius: 8px
+        }
+        #srj .card {
+            border: 1px solid #7fb8e6;
+            border-radius: 10px;
+            padding: 16px;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(11, 37, 64, .08)
+        }
+        #srj .res {
+            border: 1px solid #7fb8e6;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(11, 37, 64, .08);
+            transition: border-color .15s ease-out, box-shadow .15s ease-out
+        }
+        #srj .res:hover {
+            border-color: #1668a8;
+            box-shadow: 0 2px 8px rgba(11, 37, 64, .15)
+        }
+        #srj .meta {
+            font-size: 13px;
+            color: #1f3b52
+        }
+        #srj .badge {
+            display: inline-block;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 12px;
+            background: #dcf0ff;
+            color: #1f3b52;
+            margin-inline-end: 6px
+        }
+        #srj .lbl {
+            font-size: 12px;
+            color: #35566f;
+            margin-bottom: 4px;
+            display: block
+        }
+        #srj .act {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #1f3b52;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 6px;
+            text-decoration: none
+        }
+        #srj .act:hover {
+            background: #dcf0ff;
+            color: #0b2540
+        }
+        #srj .grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 16px;
+            max-width: 1200px;
+            margin: auto
+        }
+        #srj .switch {
+            width: 36px;
+            height: 20px;
+            background: #dcf0ff;
+            border: 1px solid #7fb8e6;
+            border-radius: 999px;
+            cursor: pointer;
+            position: relative;
+            transition: background .15s
+        }
+        #srj .switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            inset-inline-start: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #1f3b52;
+            transition: all .15s ease-out
+        }
+        #srj .switch.on {
+            background: #1668a8
+        }
+        #srj .switch.on::after {
+            inset-inline-start: 18px;
+            background: #ffffff
+        }
+        #srj textarea {
+            background: #eaf6ff;
+            border: 1px solid #7fb8e6;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.7;
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 160px;
+            color: #0b2540
+        }
+        @media(max-width:820px) {
+            #srj .grid {
+                grid-template-columns: 1fr
+            }
+        }
+        .res-actions {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .res-actions>* {
+            pointer-events: auto;
+        }
+        .res-actions button,
+        .res-actions a {
+            position: relative;
+            z-index: 2;
+        }
+        #srj .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(11,37,64,.2);
+            border-top-color: #1668a8;
+            border-radius: 50%;
+            animation: srj-spin .7s linear infinite;
+            vertical-align: middle;
+            margin-inline-end: 8px
+        }
+        @keyframes srj-spin {
+            to { transform: rotate(360deg) }
+        }
+        #srj .btn[disabled] {
+            opacity: .6;
+            cursor: not-allowed
+        }
+    </style>
+</head>
+<body>
+    <div id="srj">
+        <div id="app" dir="rtl"></div>
+        <div id="printArea" style="display:none"></div>
+    </div>
+    <script>
+        (function() {
+            // ===== إعدادات المنصة (عدّل هنا فقط) =====
+            var CONFIG = {
+                openalexKey: '',  // مفتاح OpenAlex المجاني: openalex.org/settings/api
+                mailto: ''        // بريد اختياري لتعريف الطلبات لدى Crossref/OpenAlex
+            };
+            var uidSeq = 0;
+            var SVG = {
+                search: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.5 3C16.1944 3 20 6.80558 20 11.5C20 13.523 19.2933 15.381 18.1132 16.8404L21.1364 19.8636C21.4879 20.2151 21.4879 20.7849 21.1364 21.1364C20.7849 21.4879 20.2151 21.4879 19.8636 21.1364L16.8404 18.1132C15.381 19.2933 13.523 20 11.5 20C6.80558 20 3 16.1944 3 11.5C3 6.80558 6.80558 3 11.5 3ZM11.5 18.2C15.2003 18.2 18.2 15.2003 18.2 11.5C18.2 7.79969 15.2003 4.8 11.5 4.8C7.79969 4.8 4.8 7.79969 4.8 11.5C4.8 15.2003 7.79969 18.2 11.5 18.2Z" fill="currentColor"/></svg>',
+                dl: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.90002C12.4971 2.90002 12.9 3.30297 12.9 3.80002V12.2939L15.8081 9.38585C16.1595 9.03438 16.7294 9.03438 17.0808 9.38585C17.4323 9.73732 17.4323 10.3072 17.0808 10.6586L12.6364 15.1031C12.4676 15.2719 12.2387 15.3667 12 15.3667C11.7613 15.3667 11.5324 15.2719 11.3636 15.1031L6.91917 10.6586C6.5677 10.3072 6.5677 9.73732 6.91917 9.38585C7.27064 9.03438 7.84049 9.03438 8.19196 9.38585L11.1 12.2939V3.80002C11.1 3.30297 11.503 2.90002 12 2.90002ZM4.00001 13.5874C4.49706 13.5874 4.90001 13.9903 4.90001 14.4874V18.043C4.90001 18.2758 4.99249 18.499 5.1571 18.6636C5.32172 18.8282 5.54498 18.9207 5.77778 18.9207H18.2222C18.455 18.9207 18.6783 18.8283 18.8429 18.6636C19.0075 18.499 19.1 18.2758 19.1 18.043V14.4874C19.1 13.9903 19.5029 13.5874 20 13.5874C20.4971 13.5874 20.9 13.9903 20.9 14.4874V18.043C20.9 18.7531 20.6179 19.4342 20.1157 19.9364C19.6135 20.4386 18.9324 20.7207 18.2222 20.7207H5.77778C5.06759 20.7207 4.38649 20.4386 3.88431 19.9364C3.38213 19.4342 3.10001 18.7531 3.10001 18.043V14.4874C3.10001 13.9903 3.50295 13.5874 4.00001 13.5874Z" fill="currentColor"/></svg>',
+                copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M17 7.09961C19.1539 7.09961 20.9004 8.84609 20.9004 11V17C20.9004 19.1539 19.1539 20.9004 17 20.9004H11C8.84609 20.9004 7.09961 19.1539 7.09961 17V11C7.09961 8.84609 8.84609 7.09961 11 7.09961H17ZM11 8.90039C9.8402 8.90039 8.90039 9.8402 8.90039 11V17C8.90039 18.1598 9.8402 19.0996 11 19.0996H17C18.1598 19.0996 19.0996 18.1598 19.0996 17V11C19.0996 9.8402 18.1598 8.90039 17 8.90039H11Z" fill="currentColor"/><path d="M13 3.09961C14.4447 3.09961 15.705 3.88644 16.3779 5.0498C16.6265 5.47999 16.4789 6.03049 16.0488 6.2793C15.6186 6.52781 15.0681 6.38029 14.8193 5.9502C14.4548 5.32041 13.776 4.90039 13 4.90039H7C5.8402 4.90039 4.90039 5.8402 4.90039 7V13C4.90039 13.776 5.32041 14.4548 5.9502 14.8193C6.38029 15.0681 6.52781 15.6186 6.2793 16.0488C6.03049 16.4789 5.47999 16.6265 5.0498 16.3779C3.88644 15.705 3.09961 14.4447 3.09961 13V7C3.09961 4.84609 4.84609 3.09961 7 3.09961H13Z" fill="currentColor"/></svg>',
+                link: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.97427 8.06961C4.99348 7.33581 6.18946 7.1 7.00001 7.1H9.00001C9.49706 7.1 9.90001 7.50294 9.90001 8C9.90001 8.49706 9.49706 8.9 9.00001 8.9H7.00001C6.47755 8.9 5.67353 9.06419 5.02599 9.53039C4.42434 9.96356 3.90001 10.6934 3.90001 12C3.90001 13.3066 4.42434 14.0364 5.02599 14.4696C5.67353 14.9358 6.47755 15.1 7.00001 15.1H9.00001C9.49706 15.1 9.90001 15.5029 9.90001 16C9.90001 16.4971 9.49706 16.9 9.00001 16.9H7.00001C6.18946 16.9 4.99348 16.6642 3.97427 15.9304C2.90917 15.1636 2.10001 13.8934 2.10001 12C2.10001 10.1066 2.90917 8.83644 3.97427 8.06961ZM14.1 8C14.1 7.50294 14.5029 7.1 15 7.1H17C17.8105 7.1 19.0065 7.33581 20.0257 8.06961C21.0908 8.83644 21.9 10.1066 21.9 12C21.9 13.8934 21.0908 15.1636 20.0257 15.9304C19.0065 16.6642 17.8105 16.9 17 16.9H15C14.5029 16.9 14.1 16.4971 14.1 16C14.1 15.5029 14.5029 15.1 15 15.1H17C17.5225 15.1 18.3265 14.9358 18.974 14.4696C19.5757 14.0364 20.1 13.3066 20.1 12C20.1 10.6934 19.5757 9.96356 18.974 9.53039C18.3265 9.06419 17.5225 8.9 17 8.9H15C14.5029 8.9 14.1 8.49706 14.1 8ZM7.10001 12C7.10001 11.5029 7.50295 11.1 8.00001 11.1H16C16.4971 11.1 16.9 11.5029 16.9 12C16.9 12.4971 16.4971 12.9 16 12.9H8.00001C7.50295 12.9 7.10001 12.4971 7.10001 12Z" fill="currentColor"/></svg>',
+                bm: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.1504 16.9189C11.6853 16.6515 12.3147 16.6515 12.8496 16.9189L17.9551 19.4717C18.0216 19.5049 18.0996 19.4562 18.0996 19.3818V5C18.0996 4.94477 18.0552 4.90039 18 4.90039H6C5.94477 4.90039 5.90039 4.94477 5.90039 5V19.3818C5.90039 19.4562 5.97843 19.5049 6.04492 19.4717L11.1504 16.9189ZM19.9004 19.3818C19.9004 20.7943 18.4137 21.7127 17.1504 21.0811L12.0449 18.5283C12.0168 18.5142 11.9832 18.5142 11.9551 18.5283L6.84961 21.0811C5.58627 21.7127 4.09961 20.7943 4.09961 19.3818V5C4.09961 3.34619 5.34619 2.09961 7 2.09961H17C18.6538 2.09961 19.9004 3.34619 19.9004 5V19.3818Z" fill="currentColor"/></svg>',
+                tr: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.09752 2.19507C8.5421 1.97278 9.08271 2.15298 9.305 2.59756L10.0562 4.10005H13.5C13.9971 4.10005 14.4 4.50299 14.4 5.00005C14.4 5.49711 13.9971 5.90005 13.5 5.90005H12.3106C12.2556 6.2319 12.1667 6.64073 12.0226 7.0987C11.7254 8.04355 11.191 9.20402 10.2334 10.3239C11.4166 11.196 12.5606 11.7524 13.4512 12.0987C13.978 12.3036 14.4136 12.434 14.7124 12.5122L14.7348 12.5181L15.695 10.5976C15.8475 10.2927 16.1591 10.1 16.5 10.1C16.8409 10.1 17.1525 10.2927 17.305 10.5976L20.7969 17.5814L20.8044 17.5959L20.8137 17.615L21.805 19.5976C22.0273 20.0421 21.8471 20.5827 21.4025 20.805C20.9579 21.0273 20.4173 20.8471 20.195 20.4025L19.4438 18.9H13.5562L12.805 20.4025C12.5827 20.8471 12.0421 21.0273 11.5975 20.805C11.1529 20.5827 10.9727 20.0421 11.195 19.5976L12.1863 17.615C12.1917 17.6036 12.1973 17.5924 12.2031 17.5814L13.9146 14.1583C13.6034 14.0667 13.2256 13.9423 12.7988 13.7764C11.7294 13.3605 10.3442 12.6802 8.92538 11.5924C7.79753 12.5167 6.69473 13.0764 5.83285 13.4112C5.33899 13.603 4.92286 13.7216 4.62401 13.7931C4.47449 13.8288 4.35399 13.8529 4.26741 13.8684C4.2241 13.8762 4.18924 13.8818 4.16343 13.8858L4.13156 13.8904L4.12084 13.8919L4.11682 13.8924L4.11514 13.8927C4.11514 13.8927 4.11368 13.8928 4.00001 13L4.11368 13.8928C3.62061 13.9556 3.17 13.6068 3.10722 13.1137C3.0446 12.6219 3.39148 12.1723 3.88256 12.1077L3.94947 12.0967C4.00428 12.0869 4.09114 12.0698 4.20543 12.0424C4.43422 11.9877 4.77156 11.8924 5.18106 11.7334C5.84103 11.477 6.68484 11.0564 7.56458 10.3753C7.15054 9.93496 6.78945 9.48388 6.50421 9.10102C6.26672 8.78224 6.07517 8.50172 5.94227 8.29973C5.87571 8.19858 5.82359 8.11671 5.78748 8.05909C5.76942 8.03027 5.75535 8.00749 5.74545 7.99135L5.73377 7.9722L5.73032 7.96651L5.72864 7.96371C5.71133 7.9349 5.69582 7.9055 5.68208 7.87566C5.49265 7.46416 5.6393 6.96717 6.03659 6.72853C6.09037 6.69623 6.14617 6.6702 6.20315 6.65023C6.59739 6.51205 7.04758 6.66421 7.27129 7.03623L7.27266 7.0385L7.28001 7.05054C7.28695 7.06186 7.29793 7.07964 7.31274 7.10328C7.34239 7.15059 7.38731 7.2212 7.44595 7.31032C7.56343 7.48886 7.73484 7.73997 7.94765 8.02562C8.21085 8.37889 8.52772 8.77187 8.8756 9.14201C9.64226 8.24147 10.0681 7.3133 10.3056 6.55854C10.381 6.3186 10.4372 6.09683 10.4791 5.90005H9.51951C9.50696 5.90031 9.49442 5.90031 9.48191 5.90005H4.00001C3.50296 5.90005 3.10001 5.49711 3.10001 5.00005C3.10001 4.50299 3.50296 4.10005 4.00001 4.10005H8.04378L7.69503 3.40254C7.67314 3.35877 7.65516 3.31407 7.64094 3.26883C7.51078 2.8546 7.69671 2.39547 8.09752 2.19507ZM16.5 13.0125L18.5438 17.1H14.4562L16.5 13.0125Z" fill="currentColor"/><path d="M15.1 4.00007C15.1 3.50301 15.5029 3.10007 16 3.10007H18C19.6016 3.10007 20.9 4.39844 20.9 6.00007V8.00007C20.9 8.49712 20.497 8.90007 20 8.90007C19.5029 8.90007 19.1 8.49712 19.1 8.00007V6.00007C19.1 5.39255 18.6075 4.90007 18 4.90007H16C15.5029 4.90007 15.1 4.49712 15.1 4.00007Z" fill="currentColor"/><path d="M3.99998 15.1001C4.49703 15.1001 4.89998 15.503 4.89998 16.0001V18.0001C4.89998 18.6076 5.39246 19.1001 5.99998 19.1001H7.99998C8.49703 19.1001 8.89998 19.503 8.89998 20.0001C8.89998 20.4971 8.49703 20.9001 7.99998 20.9001H5.99998C4.39835 20.9001 3.09998 19.6017 3.09998 18.0001V16.0001C3.09998 15.503 3.50292 15.1001 3.99998 15.1001Z" fill="currentColor"/></svg>'
+            };
+
+            // ============ مصادر البحث ============
+            // مصادر حية متصلة عبر واجهات برمجية حقيقية ومفتوحة
+            var SRCS = {
+                all: { ar: 'جميع القواعد الحية', en: 'All live databases' },
+                openalex: { ar: 'OpenAlex', en: 'OpenAlex' },
+                crossref: { ar: 'Crossref', en: 'Crossref' },
+                semantic: { ar: 'Semantic Scholar', en: 'Semantic Scholar' },
+                pubmed: { ar: 'PubMed', en: 'PubMed' },
+                doaj: { ar: 'DOAJ (مجلات وصول مفتوح)', en: 'DOAJ (Open Access Journals)' },
+                gbooks: { ar: 'Google Books', en: 'Google Books' },
+                iarchive: { ar: 'أرشيف الإنترنت', en: 'Internet Archive' },
+                heritage: { ar: 'فهرس التراث المحلي', en: 'Local heritage index' }
+            };
+            // ألوان مميزة لكل مصدر لتسهيل التمييز البصري السريع بين النتائج
+            var SRC_COLOR = {
+                openalex: '#6a3fa0', crossref: '#c0392b', semantic: '#1668a8', pubmed: '#1a7a4c',
+                doaj: '#b8860b', gbooks: '#2f7d32', iarchive: '#7a4a1e', heritage: '#8a4b6b'
+            };
+            // مصادر لا تملك واجهة برمجية عامة — تُفتح كروابط بحث مباشرة في موقعها
+            var EXT = {
+                scholar: { ar: 'Google Scholar', en: 'Google Scholar', build: function(q) { return 'https://scholar.google.com/scholar?q=' + encodeURIComponent(q); } },
+                mandumah: { ar: 'دار المنظومة', en: 'Dar Al Mandumah', build: function(q) { return 'https://search.mandumah.com/Search/Results?lookfor=' + encodeURIComponent(q); } },
+                shamela: { ar: 'المكتبة الشاملة', en: 'Al-Shamela', build: function(q) { return 'https://shamela.ws/search?q=' + encodeURIComponent(q); } }
+            };
+            var FIELDS = {
+                all: { ar: 'جميع المجالات', en: 'All fields', boost: '' },
+                cs: { ar: 'علوم الحاسوب', en: 'Computer science', boost: 'computer science' },
+                med: { ar: 'الطب والعلوم الصحية', en: 'Medicine & health', boost: 'medicine health' },
+                edu: { ar: 'التربية والتعليم', en: 'Education', boost: 'education pedagogy' },
+                ling: { ar: 'اللغويات', en: 'Linguistics', boost: 'linguistics' },
+                hist: { ar: 'التاريخ والتراث', en: 'History & heritage', boost: 'history' },
+                soc: { ar: 'العلوم الاجتماعية والشريعة', en: 'Social sciences & law', boost: 'social science law religion' }
+            };
+            var TYPES = {
+                article: { ar: 'مقال علمي', en: 'Journal article' },
+                book: { ar: 'كتاب', en: 'Book' },
+                proc: { ar: 'بحث محكّم', en: 'Conference paper' },
+                other: { ar: 'وثيقة علمية', en: 'Scholarly document' },
+                cls: { ar: 'تراث كلاسيكي', en: 'Classical work' }
+            };
+
+            // ============ فهرس تراثي محلي (بلا اعتماد على أي طرف ثالث) ============
+            // بيانات ببليوغرافية أساسية (مؤلف/تاريخ وفاة أو تأليف تقريبي بالميلادي/مجال) لأعمال
+            // كلاسيكية معروفة لا تفهرسها قواعد البيانات الدولية. التواريخ تقريبية شائعة الاستخدام
+            // وتحتاج مراجعة عند الاستخدام الأكاديمي الدقيق. رابط الفتح يوجّه لبحث عن العنوان في
+            // المكتبة الشاملة لعدم وجود واجهة برمجية أو معرّف رقمي (DOI) موحّد لهذه الأعمال.
+            function H(tAr, tEn, aAr, aEn, y, fld, absAr, absEn, kAr, kEn) {
+                return {
+                    title: { ar: tAr, en: tEn }, authors: { ar: aAr, en: aEn }, year: y,
+                    venue: { ar: 'نص تراثي كلاسيكي غير مفهرس دولياً', en: 'Classical heritage text (not internationally indexed)' },
+                    srcs: ['heritage'], url: EXT.shamela.build(tAr), doi: null,
+                    type: 'cls', field: fld, cites: 0,
+                    oa: false,
+                    abs: { ar: absAr, en: absEn }, keys: { ar: kAr, en: kEn }
+                };
+            }
+            var HERITAGE = [
+                H("تفسير الطبري (جامع البيان)", "Tafsir al-Tabari (Jami' al-Bayan)", "الطبري، محمد بن جرير", "Al-Tabari, Muhammad ibn Jarir", 923, "soc", "أقدم تفسير مأثور شامل جمع أقوال الصحابة والتابعين في تفسير القرآن مع الأسانيد.", "The earliest comprehensive tafsir bi-al-ma'thur, compiling companion and successor exegesis with chains of transmission.", ["التفسير بالمأثور","علوم القرآن"], ["tafsir bi'l-ma'thur","Quranic exegesis"]),
+                H("الكشاف عن حقائق التنزيل", "Al-Kashshaf", "الزمخشري، محمود بن عمر", "Al-Zamakhshari, Mahmud ibn Umar", 1144, "soc", "تفسير بلاغي معتزلي يركز على أسرار الإعجاز اللغوي والبلاغي في القرآن.", "A rhetorically-focused Mu'tazilite tafsir emphasizing the linguistic and rhetorical inimitability of the Qur'an.", ["البلاغة القرآنية","الاعتزال"], ["Quranic rhetoric","Mu'tazilism"]),
+                H("الجامع لأحكام القرآن (تفسير القرطبي)", "Al-Jami' li-Ahkam al-Qur'an", "القرطبي، محمد بن أحمد", "Al-Qurtubi, Muhammad ibn Ahmad", 1273, "soc", "تفسير فقهي يستخرج الأحكام الشرعية من آيات القرآن مع عرض آراء المذاهب.", "A fiqh-oriented tafsir extracting legal rulings from Qur'anic verses across the schools of law.", ["تفسير الأحكام","الفقه المقارن"], ["legal tafsir","comparative fiqh"]),
+                H("تفسير القرآن العظيم (تفسير ابن كثير)", "Tafsir Ibn Kathir", "ابن كثير، إسماعيل بن عمر", "Ibn Kathir, Isma'il ibn Umar", 1373, "soc", "تفسير بالمأثور يعتمد تفسير القرآن بالقرآن وبالسنة مع نقد الأسانيد.", "An athar-based tafsir emphasizing Qur'an-by-Qur'an and Qur'an-by-Sunnah interpretation with hadith criticism.", ["التفسير بالمأثور","نقد الأسانيد"], ["tafsir bi'l-ma'thur","hadith criticism"]),
+                H("أنوار التنزيل وأسرار التأويل (تفسير البيضاوي)", "Anwar al-Tanzil (Tafsir al-Baydawi)", "البيضاوي، عبد الله بن عمر", "Al-Baydawi, Abdullah ibn Umar", 1286, "soc", "مختصر بلاغي معتمد في المدارس الشرعية جمع بين الكشاف ومفاتيح الغيب.", "A concise, widely-taught tafsir synthesizing al-Kashshaf and Mafatih al-Ghayb.", ["التفسير المختصر"], ["concise tafsir"]),
+                H("مفاتيح الغيب (التفسير الكبير)", "Mafatih al-Ghayb", "الرازي، فخر الدين محمد بن عمر", "Al-Razi, Fakhr al-Din Muhammad", 1210, "soc", "تفسير موسوعي يدمج علم الكلام والفلسفة والفقه في تحليل الآيات.", "An encyclopedic tafsir integrating kalam, philosophy, and fiqh in Qur'anic analysis.", ["علم الكلام","التفسير الموسوعي"], ["kalam","encyclopedic exegesis"]),
+                H("روح المعاني في تفسير القرآن العظيم", "Ruh al-Ma'ani", "الآلوسي، محمود شكري", "Al-Alusi, Mahmud Shukri", 1854, "soc", "تفسير جامع متأخر يمزج بين المأثور والرأي مع لمسات صوفية.", "A late comprehensive tafsir blending transmitted and rational exegesis with Sufi insights.", ["التفسير المتأخر"], ["late-period tafsir"]),
+                H("فتح القدير الجامع بين فني الرواية والدراية", "Fath al-Qadir", "الشوكاني، محمد بن علي", "Al-Shawkani, Muhammad ibn Ali", 1834, "soc", "تفسير يجمع بين النقل والاجتهاد العقلي بمنهج مستقل عن التقليد المذهبي.", "A tafsir combining transmission and independent reasoning, notable for its non-madhhab-bound methodology.", ["الاجتهاد","عدم التقليد"], ["ijtihad","independent reasoning"]),
+                H("التحرير والتنوير", "Al-Tahrir wa al-Tanwir", "ابن عاشور، محمد الطاهر", "Ibn Ashur, Muhammad al-Tahir", 1973, "soc", "تفسير حديث يبرز مقاصد الشريعة وأسرار النظم القرآني.", "A modern tafsir highlighting the higher objectives (maqasid) of Islamic law and the Qur'an's rhetorical structure.", ["مقاصد الشريعة"], ["maqasid al-shariah"]),
+                H("الدر المنثور في التفسير بالمأثور", "Al-Durr al-Manthur", "السيوطي، جلال الدين", "Al-Suyuti, Jalal al-Din", 1505, "soc", "موسوعة في التفسير بالمأثور تجمع الروايات المتعلقة بكل آية.", "An encyclopedic compilation of transmitted exegetical reports for each Qur'anic verse.", ["التفسير بالمأثور"], ["tafsir bi'l-ma'thur"]),
+                H("صحيح البخاري", "Sahih al-Bukhari", "البخاري، محمد بن إسماعيل", "Al-Bukhari, Muhammad ibn Isma'il", 870, "soc", "أصح كتب الحديث عند أهل السنة، جمع الأحاديث الصحيحة مع تراجم فقهية دقيقة.", "Widely regarded as the most authentic hadith collection in Sunni Islam, with precise fiqh-oriented chapter headings.", ["الحديث الصحيح","علم الرجال"], ["sahih hadith","isnad criticism"]),
+                H("صحيح مسلم", "Sahih Muslim", "مسلم بن الحجاج", "Muslim ibn al-Hajjaj", 875, "soc", "ثاني الصحيحين، اشتهر بدقة ترتيب طرق الحديث الواحد.", "The second of the 'two Sahihs', noted for its precise arrangement of hadith transmission chains.", ["الحديث الصحيح"], ["sahih hadith"]),
+                H("سنن أبي داود", "Sunan Abi Dawud", "أبو داود السجستاني، سليمان بن الأشعث", "Abu Dawud al-Sijistani", 889, "soc", "أحد كتب السنن الأربعة، يركز على أحاديث الأحكام الفقهية.", "One of the four Sunan collections, focused on hadiths bearing legal rulings.", ["أحاديث الأحكام"], ["legal hadith"]),
+                H("سنن الترمذي (الجامع الكبير)", "Sunan al-Tirmidhi", "الترمذي، محمد بن عيسى", "Al-Tirmidhi, Muhammad ibn Isa", 892, "soc", "يتميز بذكر درجة الحديث وآراء الفقهاء بعد كل باب.", "Distinctive for grading each hadith and noting juristic opinions after each chapter.", ["تخريج الحديث"], ["hadith grading"]),
+                H("سنن النسائي (المجتبى)", "Sunan al-Nasa'i", "النسائي، أحمد بن شعيب", "Al-Nasa'i, Ahmad ibn Shu'ayb", 915, "soc", "من أدق السنن في اشتراط الرواة وأقلها حديثاً ضعيفاً.", "Known for the strictest narrator criteria among the Sunan and the fewest weak hadiths.", ["نقد الرواة"], ["narrator criticism"]),
+                H("سنن ابن ماجه", "Sunan Ibn Majah", "ابن ماجه، محمد بن يزيد", "Ibn Majah, Muhammad ibn Yazid", 887, "soc", "رابع كتب السنن، يضم زوائد على الكتب الخمسة.", "The fourth Sunan collection, containing hadiths not found in the other major collections.", ["زوائد الحديث"], ["additional hadith reports"]),
+                H("الموطأ", "Al-Muwatta", "مالك بن أنس", "Malik ibn Anas", 795, "soc", "أقدم تدوين جامع للحديث والفقه المدني في عصره.", "The earliest comprehensive compilation of hadith and Medinan fiqh.", ["فقه أهل المدينة"], ["Medinan fiqh"]),
+                H("مسند الإمام أحمد", "Musnad Ahmad ibn Hanbal", "أحمد بن حنبل", "Ahmad ibn Hanbal", 855, "soc", "أضخم مسانيد الحديث، رُتّب على أسماء الصحابة الرواة.", "The largest hadith musnad, arranged by the names of the narrating companions.", ["المسانيد"], ["musnad literature"]),
+                H("سنن الدارمي", "Sunan al-Darimi", "الدارمي، عبد الله بن عبد الرحمن", "Al-Darimi, Abdullah ibn Abd al-Rahman", 869, "soc", "من أقدم كتب السنن، يجمع بين الحديث ومسائل العقيدة.", "One of the earliest Sunan works, combining hadith with matters of creed.", ["السنن المبكرة"], ["early Sunan literature"]),
+                H("صحيح ابن خزيمة", "Sahih Ibn Khuzaymah", "ابن خزيمة، محمد بن إسحاق", "Ibn Khuzaymah, Muhammad ibn Ishaq", 923, "soc", "من أدق كتب الحديث الصحيح، اشتهر مؤلفه بالتثبت الشديد.", "A rigorously authenticated hadith collection, known for its compiler's extreme caution in verification.", ["الصحيح المسند"], ["rigorously authenticated hadith"]),
+                H("صحيح ابن حبان", "Sahih Ibn Hibban", "ابن حبان، محمد البستي", "Ibn Hibban, Muhammad al-Busti", 965, "soc", "صحيح مرتب على تقسيم موضوعي دقيق غير مألوف.", "An authenticated collection arranged by an unusual and precise thematic classification.", ["ترتيب الحديث"], ["hadith classification"]),
+                H("المستدرك على الصحيحين", "Al-Mustadrak ala al-Sahihayn", "الحاكم النيسابوري، محمد بن عبد الله", "Al-Hakim al-Naysaburi", 1014, "soc", "جمع أحاديث رآها المؤلف صحيحة على شرط الشيخين ولم يخرجاها.", "Compiles hadiths the author deemed to meet Bukhari's and Muslim's standards though they had not included them.", ["استدراك الحديث"], ["hadith supplementation"]),
+                H("السنن الكبرى للبيهقي", "Al-Sunan al-Kubra", "البيهقي، أحمد بن الحسين", "Al-Bayhaqi, Ahmad ibn al-Husayn", 1066, "soc", "موسوعة حديثية فقهية ضخمة تربط الأحاديث بمذهب الشافعي.", "A massive hadith-fiqh encyclopedia linking hadith evidence to Shafi'i legal positions.", ["الحديث والفقه"], ["hadith and fiqh"]),
+                H("مجمع الزوائد ومنبع الفوائد", "Majma al-Zawa'id", "الهيثمي، علي بن أبي بكر", "Al-Haythami, Ali ibn Abi Bakr", 1405, "soc", "يجمع زوائد المسانيد الكبرى على الكتب الستة مع بيان درجاتها.", "Compiles hadiths from the major musnad collections absent from the six canonical books, with gradings.", ["زوائد المسانيد"], ["musnad supplements"]),
+                H("فتح الباري بشرح صحيح البخاري", "Fath al-Bari", "ابن حجر العسقلاني، أحمد بن علي", "Ibn Hajar al-Asqalani", 1449, "soc", "أشهر شروح صحيح البخاري وأكثرها استيعاباً للفقه واللغة والأسانيد.", "The most celebrated commentary on Sahih al-Bukhari, comprehensive in fiqh, language, and chains of narration.", ["شرح الحديث"], ["hadith commentary"]),
+                H("المنهاج شرح صحيح مسلم بن الحجاج", "Sharh Sahih Muslim (al-Minhaj)", "النووي، يحيى بن شرف", "Al-Nawawi, Yahya ibn Sharaf", 1277, "soc", "شرح فقهي لغوي معتمد على صحيح مسلم.", "A widely-relied-upon fiqh-and-language commentary on Sahih Muslim.", ["شرح الحديث"], ["hadith commentary"]),
+                H("عمدة القاري شرح صحيح البخاري", "Umdat al-Qari", "العيني، محمود بن أحمد", "Al-Ayni, Mahmud ibn Ahmad", 1451, "soc", "شرح موسّع لصحيح البخاري يعنى بالفقه الحنفي خاصة.", "An extensive commentary on Sahih al-Bukhari with particular attention to Hanafi fiqh.", ["الفقه الحنفي","شرح الحديث"], ["Hanafi fiqh","hadith commentary"]),
+                H("الهداية شرح بداية المبتدي", "Al-Hidayah", "المرغيناني، علي بن أبي بكر", "Al-Marghinani, Ali ibn Abi Bakr", 1197, "soc", "من أهم متون الفقه الحنفي المعتمدة في التدريس لقرون.", "One of the most important Hanafi fiqh texts, taught for centuries.", ["الفقه الحنفي"], ["Hanafi fiqh"]),
+                H("بدائع الصنائع في ترتيب الشرائع", "Bada'i al-Sana'i", "الكاساني، علاء الدين", "Al-Kasani, Ala' al-Din", 1191, "soc", "موسوعة فقهية حنفية مرتبة ترتيباً منطقياً دقيقاً.", "A Hanafi fiqh encyclopedia with a notably precise logical arrangement.", ["الفقه الحنفي"], ["Hanafi fiqh"]),
+                H("المبسوط", "Al-Mabsut", "السرخسي، محمد بن أحمد", "Al-Sarakhsi, Muhammad ibn Ahmad", 1096, "soc", "من أوسع كتب الفقه الحنفي، أملاه المؤلف من حفظه في السجن.", "One of the most extensive Hanafi fiqh works, reportedly dictated from memory while imprisoned.", ["الفقه الحنفي"], ["Hanafi fiqh"]),
+                H("رد المحتار على الدر المختار (حاشية ابن عابدين)", "Radd al-Muhtar (Hashiyat Ibn Abidin)", "ابن عابدين، محمد أمين", "Ibn Abidin, Muhammad Amin", 1836, "soc", "أهم حاشية متأخرة معتمدة في الفتوى الحنفية.", "The foremost late Hanafi commentary, widely relied upon in fatwa practice.", ["الفقه الحنفي المتأخر"], ["late Hanafi fiqh"]),
+                H("تبيين الحقائق شرح كنز الدقائق", "Tabyin al-Haqa'iq", "الزيلعي، عثمان بن علي", "Al-Zayla'i, Uthman ibn Ali", 1343, "soc", "شرح حنفي معتمد على متن كنز الدقائق.", "A standard Hanafi commentary on the matn Kanz al-Daqa'iq.", ["الفقه الحنفي"], ["Hanafi fiqh"]),
+                H("المدونة الكبرى", "Al-Mudawwana al-Kubra", "سحنون، عبد السلام بن سعيد (رواية عن ابن القاسم عن مالك)", "Sahnun, Abd al-Salam ibn Sa'id", 854, "soc", "الأصل المدوَّن الأول لفقه المذهب المالكي.", "The foundational compiled text of Maliki fiqh.", ["الفقه المالكي"], ["Maliki fiqh"]),
+                H("بداية المجتهد ونهاية المقتصد", "Bidayat al-Mujtahid", "ابن رشد الحفيد، محمد بن أحمد", "Ibn Rushd al-Hafid", 1198, "soc", "مرجع فقه مقارن يعرض أدلة الخلاف بين المذاهب الأربعة.", "A comparative fiqh reference presenting the evidences behind juristic disagreement across the four schools.", ["الفقه المقارن","الخلاف الفقهي"], ["comparative fiqh","juristic disagreement"]),
+                H("مختصر خليل", "Mukhtasar Khalil", "خليل بن إسحاق الجندي", "Khalil ibn Ishaq al-Jundi", 1365, "soc", "المتن المالكي الأكثر اعتماداً في الفتوى والتدريس المتأخر.", "The most widely relied-upon later Maliki matn in fatwa and teaching.", ["الفقه المالكي المتأخر"], ["later Maliki fiqh"]),
+                H("الفروق (أنوار البروق في أنواء الفروق)", "Al-Furuq", "القرافي، أحمد بن إدريس", "Al-Qarafi, Ahmad ibn Idris", 1285, "soc", "من أهم مصادر الفروق الفقهية والقواعد الفقهية المالكية.", "A key source for fiqh distinctions (furuq) and legal maxims within the Maliki tradition.", ["الفروق الفقهية","القواعد الفقهية"], ["fiqh distinctions","legal maxims"]),
+                H("الأم", "Al-Umm", "الشافعي، محمد بن إدريس", "Al-Shafi'i, Muhammad ibn Idris", 820, "soc", "الموسوعة الفقهية الأصلية لمذهب الإمام الشافعي.", "The foundational fiqh encyclopedia of the Shafi'i school.", ["الفقه الشافعي"], ["Shafi'i fiqh"]),
+                H("منهاج الطالبين", "Minhaj al-Talibin", "النووي، يحيى بن شرف", "Al-Nawawi, Yahya ibn Sharaf", 1277, "soc", "المتن الشافعي الأكثر شرحاً واعتماداً في الفتوى.", "The most extensively commented-upon and relied-upon Shafi'i matn.", ["الفقه الشافعي"], ["Shafi'i fiqh"]),
+                H("المجموع شرح المهذب", "Al-Majmu' Sharh al-Muhadhdhab", "النووي، يحيى بن شرف", "Al-Nawawi, Yahya ibn Sharaf", 1277, "soc", "موسوعة فقهية مقارنة لم يكملها المؤلف قبل وفاته.", "A comparative fiqh encyclopedia left unfinished at the author's death.", ["الفقه الشافعي المقارن"], ["comparative Shafi'i fiqh"]),
+                H("المهذب في فقه الإمام الشافعي", "Al-Muhadhdhab", "الشيرازي، إبراهيم بن علي", "Al-Shirazi, Ibrahim ibn Ali", 1083, "soc", "متن شافعي مبكر معتمد شرحه النووي في المجموع.", "An early standard Shafi'i matn later commented on by al-Nawawi in al-Majmu'.", ["الفقه الشافعي"], ["Shafi'i fiqh"]),
+                H("المغني", "Al-Mughni", "ابن قدامة، عبد الله بن أحمد", "Ibn Qudamah, Abdullah ibn Ahmad", 1223, "soc", "أوسع موسوعة فقهية حنبلية مقارنة بالمذاهب الأخرى.", "The most extensive Hanbali fiqh encyclopedia, comparative with the other schools.", ["الفقه الحنبلي المقارن"], ["comparative Hanbali fiqh"]),
+                H("الكافي في فقه الإمام أحمد", "Al-Kafi", "ابن قدامة، عبد الله بن أحمد", "Ibn Qudamah, Abdullah ibn Ahmad", 1223, "soc", "مختصر فقهي حنبلي معتمد للمؤلف نفسه صاحب المغني.", "A concise standard Hanbali fiqh work by the same author as al-Mughni.", ["الفقه الحنبلي"], ["Hanbali fiqh"]),
+                H("كشاف القناع عن متن الإقناع", "Kashshaf al-Qina'", "البهوتي، منصور بن يونس", "Al-Buhuti, Mansur ibn Yunus", 1641, "soc", "من أهم شروح الفقه الحنبلي المتأخر المعتمدة في الإفتاء.", "One of the most important later Hanbali commentaries relied upon in fatwa.", ["الفقه الحنبلي المتأخر"], ["later Hanbali fiqh"]),
+                H("الإنصاف في معرفة الراجح من الخلاف", "Al-Insaf", "المرداوي، علي بن سليمان", "Al-Mardawi, Ali ibn Sulayman", 1480, "soc", "يحرر الراجح من أقوال المذهب الحنبلي عند الاختلاف.", "Determines the preponderant opinion within the Hanbali school in cases of internal disagreement.", ["ترجيح الأقوال"], ["tarjih within a madhhab"]),
+                H("الرسالة", "Al-Risalah", "الشافعي، محمد بن إدريس", "Al-Shafi'i, Muhammad ibn Idris", 820, "soc", "أول مصنف مستقل مؤسس لعلم أصول الفقه.", "The first independent treatise founding the discipline of usul al-fiqh.", ["أصول الفقه"], ["usul al-fiqh"]),
+                H("المستصفى من علم الأصول", "Al-Mustasfa", "الغزالي، محمد بن محمد", "Al-Ghazali, Muhammad ibn Muhammad", 1111, "soc", "مرجع أصولي كلامي شافعي مؤثر في المدارس اللاحقة.", "An influential Ash'ari-inflected Shafi'i usul al-fiqh reference for later schools of thought.", ["أصول الفقه"], ["usul al-fiqh"]),
+                H("الموافقات في أصول الشريعة", "Al-Muwafaqat", "الشاطبي، إبراهيم بن موسى", "Al-Shatibi, Ibrahim ibn Musa", 1388, "soc", "المرجع التأسيسي لعلم مقاصد الشريعة.", "The foundational reference for the science of maqasid al-shariah (higher objectives of Islamic law).", ["مقاصد الشريعة","أصول الفقه"], ["maqasid al-shariah","usul al-fiqh"]),
+                H("إرشاد الفحول إلى تحقيق الحق من علم الأصول", "Irshad al-Fuhul", "الشوكاني، محمد بن علي", "Al-Shawkani, Muhammad ibn Ali", 1834, "soc", "مرجع أصولي متأخر يميل إلى الاستقلال عن التقليد المذهبي.", "A later usul al-fiqh reference inclined toward independence from madhhab-bound taqlid.", ["أصول الفقه"], ["usul al-fiqh"]),
+                H("روضة الناظر وجنة المناظر", "Rawdat al-Nazir", "ابن قدامة، عبد الله بن أحمد", "Ibn Qudamah, Abdullah ibn Ahmad", 1223, "soc", "مختصر أصولي حنبلي مبني على المستصفى للغزالي.", "A concise Hanbali usul al-fiqh work based on al-Ghazali's al-Mustasfa.", ["أصول الفقه"], ["usul al-fiqh"]),
+                H("الإحكام في أصول الأحكام", "Al-Ihkam fi Usul al-Ahkam", "الآمدي، علي بن أبي علي", "Al-Amidi, Ali ibn Abi Ali", 1233, "soc", "من أدق كتب أصول الفقه تحقيقاً وموازنة بين المدارس.", "One of the most rigorously argued usul al-fiqh works, balancing across schools of thought.", ["أصول الفقه"], ["usul al-fiqh"]),
+                H("الأشباه والنظائر (السيوطي)", "Al-Ashbah wa al-Naza'ir (al-Suyuti)", "السيوطي، جلال الدين", "Al-Suyuti, Jalal al-Din", 1505, "soc", "مرجع أساسي في القواعد الفقهية الشافعية.", "A foundational reference for Shafi'i legal maxims (qawa'id fiqhiyyah).", ["القواعد الفقهية"], ["legal maxims (qawa'id fiqhiyyah)"]),
+                H("الأشباه والنظائر (ابن نجيم)", "Al-Ashbah wa al-Naza'ir (Ibn Nujaym)", "ابن نجيم، زين الدين بن إبراهيم", "Ibn Nujaym, Zayn al-Din ibn Ibrahim", 1563, "soc", "أشهر مصنف في القواعد الفقهية الحنفية، وأساس مجلة الأحكام العدلية لاحقاً.", "The most celebrated work on Hanafi legal maxims, later foundational to the Ottoman Majalla.", ["القواعد الفقهية الحنفية"], ["Hanafi legal maxims"]),
+                H("مجلة الأحكام العدلية", "Majallat al-Ahkam al-Adliyyah (Ottoman Mecelle)", "لجنة عثمانية برئاسة أحمد جودت باشا", "Ottoman committee chaired by Ahmed Cevdet Pasha", 1876, "soc", "أول تقنين رسمي للفقه الحنفي في هيئة مواد قانونية مرقّمة.", "The first official codification of Hanafi fiqh into numbered legal articles.", ["تقنين الفقه","القواعد الفقهية"], ["codification of fiqh","legal maxims"]),
+                H("قواعد الأحكام في مصالح الأنام", "Qawa'id al-Ahkam", "العز بن عبد السلام، عبد العزيز", "Al-Izz ibn Abd al-Salam, Abd al-Aziz", 1262, "soc", "يؤصل الفقه على قاعدة جلب المصالح ودرء المفاسد.", "Grounds fiqh in the overarching principle of securing benefit and averting harm.", ["المصالح والمفاسد","القواعد الفقهية"], ["maslaha","legal maxims"]),
+                H("الإبانة عن أصول الديانة", "Al-Ibanah", "الأشعري، أبو الحسن علي بن إسماعيل", "Al-Ash'ari, Abu al-Hasan Ali", 936, "soc", "من أواخر مصنفات الأشعري، يعرض عقيدته بعد رجوعه عن الاعتزال.", "One of al-Ash'ari's later works, presenting his creed after his departure from Mu'tazilism.", ["علم الكلام","العقيدة الأشعرية"], ["kalam","Ash'ari creed"]),
+                H("العقيدة الطحاوية", "Al-Aqidah al-Tahawiyyah", "الطحاوي، أحمد بن محمد", "Al-Tahawi, Ahmad ibn Muhammad", 933, "soc", "متن موجز يمثل عقيدة أهل السنة والجماعة على منهج أهل الحديث والحنفية.", "A concise creedal text representing Sunni orthodoxy along Hanafi-traditionist lines.", ["العقيدة السنية"], ["Sunni creed"]),
+                H("الاقتصاد في الاعتقاد", "Al-Iqtisad fi al-I'tiqad", "الغزالي، محمد بن محمد", "Al-Ghazali, Muhammad ibn Muhammad", 1111, "soc", "مختصر كلامي أشعري متوسط بين الاختصار والتطويل.", "A moderately-detailed Ash'ari kalam treatise.", ["علم الكلام"], ["kalam"]),
+                H("العقيدة الواسطية", "Al-Aqidah al-Wasitiyyah", "ابن تيمية، أحمد بن عبد الحليم", "Ibn Taymiyyah, Ahmad ibn Abd al-Halim", 1328, "soc", "متن عقدي مختصر يمثل منهج السلف عند ابن تيمية.", "A concise creedal text representing Ibn Taymiyyah's traditionalist (salafi) methodology.", ["العقيدة السلفية"], ["traditionalist (Salafi) creed"]),
+                H("شرح العقيدة الطحاوية", "Sharh al-Aqidah al-Tahawiyyah", "ابن أبي العز، صدر الدين علي", "Ibn Abi al-Izz, Sadr al-Din Ali", 1390, "soc", "أشهر شروح الطحاوية، يميل فيه الشارح إلى منهج ابن تيمية.", "The most famous commentary on al-Tahawiyyah, inclined toward Ibn Taymiyyah's approach.", ["شرح العقيدة"], ["creedal commentary"]),
+                H("إحياء علوم الدين", "Ihya Ulum al-Din", "الغزالي، محمد بن محمد", "Al-Ghazali, Muhammad ibn Muhammad", 1111, "soc", "موسوعة تجمع الفقه والتصوف وعلم النفس الأخلاقي.", "An encyclopedic synthesis of fiqh, Sufism, and moral psychology.", ["التصوف","الأخلاق"], ["Sufism","Islamic ethics"]),
+                H("الرسالة القشيرية", "Al-Risalah al-Qushayriyyah", "القشيري، عبد الكريم بن هوازن", "Al-Qushayri, Abd al-Karim ibn Hawazin", 1072, "soc", "من أهم المصادر المبكرة في تقعيد علم التصوف السني.", "One of the earliest major sources systematizing Sunni Sufism.", ["التصوف السني"], ["Sunni Sufism"]),
+                H("عوارف المعارف", "Awarif al-Ma'arif", "السهروردي، عمر بن محمد", "Al-Suhrawardi, Umar ibn Muhammad", 1234, "soc", "دليل عملي لآداب الطريق الصوفي وتربية المريدين.", "A practical guide to Sufi conduct and the training of disciples.", ["آداب التصوف"], ["Sufi conduct"]),
+                H("تاريخ الرسل والملوك (تاريخ الطبري)", "Tarikh al-Tabari", "الطبري، محمد بن جرير", "Al-Tabari, Muhammad ibn Jarir", 923, "hist", "أوسع تأريخ سردي شامل للتاريخ الإسلامي المبكر.", "The most comprehensive early narrative history of Islam.", ["التاريخ الإسلامي المبكر"], ["early Islamic historiography"]),
+                H("الكامل في التاريخ", "Al-Kamil fi al-Tarikh", "ابن الأثير، علي بن أبي الكرم", "Ibn al-Athir, Ali ibn Abi al-Karam", 1233, "hist", "تأريخ عام حتى القرن السابع الهجري بمنهج نقدي تحليلي.", "A general history up to the 7th Islamic century, with an analytical-critical approach.", ["التاريخ العام"], ["general Islamic history"]),
+                H("البداية والنهاية", "Al-Bidayah wa al-Nihayah", "ابن كثير، إسماعيل بن عمر", "Ibn Kathir, Isma'il ibn Umar", 1373, "hist", "تأريخ عام من الخلق إلى عصر المؤلف مع تراجم واسعة.", "A universal history from creation to the author's era, with extensive biographical entries.", ["التاريخ العام","التراجم"], ["universal history","biography"]),
+                H("مقدمة ابن خلدون", "The Muqaddimah", "ابن خلدون، عبد الرحمن بن محمد", "Ibn Khaldun, Abd al-Rahman", 1377, "hist", "النص المؤسس لعلم الاجتماع والعمران البشري ونظرية العصبية.", "The foundational text of sociology and the theory of social cohesion ('asabiyyah).", ["العصبية","علم العمران"], ["asabiyyah","historiography"]),
+                H("سير أعلام النبلاء", "Siyar A'lam al-Nubala", "الذهبي، محمد بن أحمد", "Al-Dhahabi, Muhammad ibn Ahmad", 1348, "hist", "موسوعة تراجم لأعلام الإسلام من الصحابة حتى عصر المؤلف.", "A biographical encyclopedia of prominent Muslim figures from the Companions to the author's era.", ["التراجم"], ["biographical dictionary"]),
+                H("وفيات الأعيان وأنباء أبناء الزمان", "Wafayat al-A'yan", "ابن خلكان، أحمد بن محمد", "Ibn Khallikan, Ahmad ibn Muhammad", 1282, "hist", "أول معجم تراجم يرتب الوفيات مع دقة تاريخية عالية.", "A pioneering biographical dictionary of obituaries, noted for its historical precision.", ["التراجم"], ["biographical dictionary"]),
+                H("السيرة النبوية لابن هشام", "Al-Sira al-Nabawiyyah", "ابن هشام، عبد الملك بن هشام (عن ابن إسحاق)", "Ibn Hisham, Abd al-Malik", 833, "hist", "أشهر تهذيب لسيرة ابن إسحاق وأكثرها تداولاً.", "The most famous and widely-transmitted redaction of Ibn Ishaq's biography of the Prophet.", ["السيرة النبوية"], ["prophetic biography (sira)"]),
+                H("الإصابة في تمييز الصحابة", "Al-Isabah fi Tamyiz al-Sahabah", "ابن حجر العسقلاني، أحمد بن علي", "Ibn Hajar al-Asqalani", 1449, "hist", "أوسع معجم تراجم للصحابة مع الأسانيد.", "The most extensive biographical dictionary of the Prophet's companions with chains of narration.", ["تراجم الصحابة"], ["companion biography"]),
+                H("أسد الغابة في معرفة الصحابة", "Usd al-Ghabah", "ابن الأثير، علي بن أبي الكرم", "Ibn al-Athir, Ali ibn Abi al-Karam", 1233, "hist", "معجم شامل لتراجم الصحابة رجالاً ونساءً.", "A comprehensive biographical dictionary of companions, men and women.", ["تراجم الصحابة"], ["companion biography"]),
+                H("كتاب العين", "Kitab al-Ayn", "الخليل بن أحمد الفراهيدي", "Al-Khalil ibn Ahmad al-Farahidi", 786, "ling", "أول معجم عربي، رُتّب على مخارج الحروف.", "The earliest Arabic dictionary, arranged by points of phonetic articulation.", ["المعاجم","الأصوات"], ["lexicography","phonetics"]),
+                H("الصحاح (تاج اللغة وصحاح العربية)", "Al-Sihah", "الجوهري، إسماعيل بن حماد", "Al-Jawhari, Isma'il ibn Hammad", 1003, "ling", "معجم مرتب على الحرف الأخير من الكلمة (نظام القافية).", "A dictionary organized by the final root letter (rhyme-based system).", ["المعاجم"], ["lexicography"]),
+                H("معجم مقاييس اللغة", "Mu'jam Maqayis al-Lughah", "ابن فارس، أحمد بن فارس", "Ibn Faris, Ahmad ibn Faris", 1004, "ling", "يبحث عن أصل دلالي واحد يجمع مشتقات كل جذر.", "Explores a unifying semantic root for the derivations of each triliteral root.", ["أصول الاشتقاق"], ["etymology and derivation theory"]),
+                H("لسان العرب", "Lisan al-Arab", "ابن منظور، محمد بن مكرم", "Ibn Manzur, Muhammad ibn Mukarram", 1311, "ling", "أضخم معجم عربي تراثي، جمع مادة المعاجم السابقة.", "The largest classical Arabic dictionary, synthesizing earlier lexicographic works.", ["المعاجم الكبرى"], ["major lexicography"]),
+                H("القاموس المحيط", "Al-Qamus al-Muhit", "الفيروزآبادي، محمد بن يعقوب", "Al-Fayruzabadi, Muhammad ibn Ya'qub", 1415, "ling", "معجم موجز شديد التركيز اشتهر تداوله بين طلبة العلم.", "A highly condensed dictionary widely used among students of the traditional sciences.", ["المعاجم الموجزة"], ["concise lexicography"]),
+                H("الكتاب", "Al-Kitab", "سيبويه، عمرو بن عثمان", "Sibawayh, Amr ibn Uthman", 796, "ling", "أول وأهم مصنف مستقل مؤسس لعلم النحو العربي.", "The first and most important independent treatise founding Arabic grammar as a discipline.", ["النحو العربي"], ["Arabic grammar (nahw)"]),
+                H("ألفية ابن مالك", "Alfiyyat Ibn Malik", "ابن مالك، محمد بن عبد الله", "Ibn Malik, Muhammad ibn Abdullah", 1274, "ling", "منظومة نحوية في ألف بيت، أشهر متون النحو تدريساً.", "A thousand-verse grammatical poem, the most widely taught grammar matn.", ["النحو العربي"], ["Arabic grammar (nahw)"]),
+                H("شرح ابن عقيل على ألفية ابن مالك", "Sharh Ibn Aqil", "ابن عقيل، بهاء الدين عبد الله", "Ibn Aqil, Baha' al-Din Abdullah", 1367, "ling", "أشهر شروح الألفية وأكثرها اعتماداً في التدريس.", "The most famous and widely-taught commentary on the Alfiyyah.", ["شرح النحو"], ["grammar commentary"]),
+                H("مغني اللبيب عن كتب الأعاريب", "Mughni al-Labib", "ابن هشام الأنصاري، عبد الله بن يوسف", "Ibn Hisham al-Ansari, Abdullah ibn Yusuf", 1360, "ling", "مرجع متقدم في إعراب الحروف ومعانيها.", "An advanced reference on particle grammar and semantics in Arabic syntax.", ["إعراب الحروف"], ["particle syntax"]),
+                H("دلائل الإعجاز", "Dala'il al-I'jaz", "الجرجاني، عبد القاهر", "Al-Jurjani, Abd al-Qahir", 1078, "ling", "المؤسس لنظرية النظم في البلاغة العربية.", "The founding text of the theory of syntactic composition (nazm) in Arabic rhetoric.", ["نظرية النظم","البلاغة"], ["theory of nazm","Arabic rhetoric"]),
+                H("مفتاح العلوم", "Miftah al-Ulum", "السكاكي، يوسف بن أبي بكر", "Al-Sakkaki, Yusuf ibn Abi Bakr", 1229, "ling", "أسس التقسيم الثلاثي التقليدي لعلم البلاغة (معاني، بيان، بديع).", "Established the traditional threefold division of Arabic rhetoric (ma'ani, bayan, badi').", ["علم البلاغة"], ["Arabic rhetoric"]),
+                H("الشفاء", "Al-Shifa", "ابن سينا، الحسين بن عبد الله", "Ibn Sina (Avicenna)", 1037, "soc", "موسوعة فلسفية ضخمة تغطي المنطق والطبيعيات والإلهيات.", "A vast philosophical encyclopedia covering logic, physics, and metaphysics.", ["الفلسفة الإسلامية","المنطق"], ["Islamic philosophy","logic"]),
+                H("تهافت الفلاسفة", "Tahafut al-Falasifah", "الغزالي، محمد بن محمد", "Al-Ghazali, Muhammad ibn Muhammad", 1111, "soc", "نقد كلامي منهجي لعشرين مسألة فلسفية عند ابن سينا والفارابي.", "A systematic kalam-based critique of twenty philosophical positions of Ibn Sina and al-Farabi.", ["نقد الفلسفة"], ["critique of philosophy"]),
+                H("تهافت التهافت", "Tahafut al-Tahafut", "ابن رشد الحفيد، محمد بن أحمد", "Ibn Rushd (Averroes)", 1198, "soc", "رد فلسفي مفصّل على تهافت الفلاسفة للغزالي.", "A detailed philosophical rebuttal of al-Ghazali's Tahafut al-Falasifah.", ["الدفاع عن الفلسفة"], ["defense of philosophy"]),
+                H("رسائل إخوان الصفا", "Rasa'il Ikhwan al-Safa", "جماعة إخوان الصفا (مؤلفون مجهولون)", "Ikhwan al-Safa (anonymous collective)", 980, "soc", "موسوعة معرفية موسوعية تمزج الفلسفة والعلوم والدين.", "An encyclopedic collection blending philosophy, the sciences, and religion.", ["الموسوعية الفلسفية"], ["philosophical encyclopedism"]),
+                H("القانون في الطب", "Al-Qanun fi al-Tibb (The Canon of Medicine)", "ابن سينا، الحسين بن عبد الله", "Ibn Sina (Avicenna)", 1037, "med", "موسوعة طبية خمسية ظلت مرجعاً في أوروبا حتى القرن السابع عشر.", "A five-volume medical encyclopedia that remained a European reference text until the 17th century.", ["الطب الكلاسيكي"], ["classical medicine"]),
+                H("الحاوي في الطب", "Al-Hawi (Liber Continens)", "الرازي، أبو بكر محمد بن زكريا", "Al-Razi (Rhazes), Abu Bakr Muhammad", 925, "med", "أوسع موسوعة طبية إكلينيكية قبل الحداثة، مبنية على الملاحظة السريرية.", "The most extensive pre-modern clinical medical encyclopedia, grounded in bedside observation.", ["الطب السريري"], ["clinical medicine"]),
+                H("التصريف لمن عجز عن التأليف", "Al-Tasrif", "الزهراوي، خلف بن عباس", "Al-Zahrawi (Abulcasis), Khalaf ibn Abbas", 1013, "med", "موسوعة جراحية مصورة بالأدوات، أثّرت في الجراحة الأوروبية طويلاً.", "An illustrated surgical encyclopedia depicting instruments, long influential on European surgery.", ["الجراحة الكلاسيكية"], ["classical surgery"]),
+            ];
+            HERITAGE.forEach(function(it, i) { it.id = 'h' + i; });
+
+            function normArabic(s) {
+                return (s || '').toString()
+                    .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+                    .replace(/\u0640/g, '')
+                    .replace(/[\u0623\u0625\u0622\u0671]/g, '\u0627')
+                    .replace(/\u0649/g, '\u064A')
+                    .replace(/\u0624/g, '\u0648')
+                    .replace(/\u0626/g, '\u064A')
+                    .replace(/\u0629/g, '\u0647')
+                    .toLowerCase().trim();
+            }
+            function searchHeritage(q) {
+                var nq = normArabic(q);
+                var toks = nq.split(/\s+/).filter(function(x) { return x.length >= 2; });
+                if (!toks.length) return [];
+                var out = HERITAGE.filter(function(it) {
+                    if (state.field !== 'all' && it.field !== state.field) return false;
+                    var hay = normArabic(it.title.ar + ' ' + it.authors.ar + ' ' + it.keys.ar.join(' ') + ' ' + it.title.en + ' ' + it.authors.en + ' ' + it.keys.en.join(' '));
+                    return toks.some(function(tk) { return hay.indexOf(tk) >= 0; });
+                });
+                return out.map(function(it) { return Object.assign({}, it, { srcs: it.srcs.slice(), keys: it.keys, abs: it.abs }); });
+            }
+            var D = {
+                ar: {
+                    brand: 'إسناد', tag: 'منصة العلم والمصدر',
+                    proto: 'نسخة متصلة 2.1',
+                    searchPh: 'اكتب أي موضوع، عنوان، مؤلف أو DOI…', search: 'بحث',
+                    ai: 'إظهار الملخص والمصطلحات', aiHint: 'يعرض ملخص العمل الفعلي كما ورد في قاعدة البيانات',
+                    from: 'من سنة', to: 'إلى سنة', field: 'توجيه المجال (اختياري)', sort: 'الترتيب',
+                    sRel: 'الأكثر ملاءمة', sYd: 'الأحدث', sYa: 'الأقدم', sC: 'الأكثر استشهاداً',
+                    results: 'النتائج', found1: 'نتيجة حية من', found2: 'قواعد بيانات',
+                    open: 'فتح المصدر الحقيقي', save: 'حفظ في قائمة المراجع', saved: 'محفوظ ✓',
+                    aiSum: 'الملخص والمصطلحات', aiKeys: 'مصطلحات مفتاحية (من قاعدة البيانات)',
+                    alsoIn: 'موجود أيضاً في',
+                    basket: 'قائمة المراجع', basketEmpty: 'لم تحفظ أي مرجع بعد — اضغط «حفظ» على أي نتيجة.',
+                    style: 'نظام التوثيق',
+                    styles: { apa: 'APA — الجمعية الأمريكية لعلم النفس (7)', mla: 'MLA — الجمعية الحديثة للغات (9)', chicago: 'شيكاغو (17)', ieee: 'IEEE', vancouver: 'فانكوفر', harvard: 'هارفارد', bibtex: 'BibTeX', ris: 'RIS' },
+                    format: 'صيغة التصدير',
+                    formats: { pdf: 'مستند PDF', word: 'مستند Word', bib: 'BibTeX (.bib)', ris: 'RIS (.ris)', txt: 'نص عادي (.txt)' },
+                    preview: 'معاينة التوثيق', exp: 'تصدير', cp: 'نسخ', rm: 'إزالة', clr: 'مسح الكل',
+                    printT: 'قائمة المراجع — إسناد', printNote: 'مولّدة آلياً بصيغة',
+                    aiQ: '✦ جرّب موضوعاً عشوائياً', cites: 'استشهاد',
+                    empty: 'لا توجد نتائج مطابقة من القواعد الحية — جرّب توسيع نطاق السنوات، تقليل عوامل التصفية، أو صياغة أدق للعبارة.',
+                    srcLabel: 'قواعد البيانات المتصلة الآن', all: 'الكل',
+                    startPrompt: 'اكتب أي موضوع (تقني، طبي، تربوي، إنساني…) واضغط بحث — سيتم الاستعلام مباشرة من قواعد بيانات علمية حقيقية.',
+                    searching: 'جارٍ الاستعلام من القواعد الحية…', noAbs: 'لا يتوفر ملخص لهذا العمل من قاعدة البيانات المصدر.',
+                    partialErr: 'تعذّر الوصول الآن إلى: ',
+                    extTitle: 'روابط بحث مباشرة (بلا واجهة برمجية عامة — تُفتح في الموقع نفسه)',
+                    extHint: 'هذه المنصات لا تتيح استعلامات برمجية علنية، فتُفتح نتائجها في موقعها الأصلي مباشرة.'
+                },
+                en: {
+                    brand: 'Isnad', tag: 'The Knowledge & Source Platform',
+                    proto: 'Connected build 2.1',
+                    searchPh: 'Search any topic, title, author or DOI…', search: 'Search',
+                    ai: 'Show summary & terms', aiHint: "Shows the work's actual abstract as returned by the database",
+                    from: 'From year', to: 'To year', field: 'Field boost (optional)', sort: 'Sort by',
+                    sRel: 'Relevance', sYd: 'Newest', sYa: 'Oldest', sC: 'Most cited',
+                    results: 'Results', found1: 'live results from', found2: 'databases',
+                    open: 'Open real source', save: 'Save to reference list', saved: 'Saved ✓',
+                    aiSum: 'Summary & terms', aiKeys: 'Key terms (from database)', alsoIn: 'Also found in',
+                    basket: 'Reference list', basketEmpty: 'No references saved yet — hit "Save" on any result.',
+                    style: 'Citation style',
+                    styles: { apa: 'APA (7th ed.)', mla: 'MLA (9th ed.)', chicago: 'Chicago (17th ed.)', ieee: 'IEEE', vancouver: 'Vancouver', harvard: 'Harvard', bibtex: 'BibTeX', ris: 'RIS' },
+                    format: 'Export format',
+                    formats: { pdf: 'PDF document', word: 'Word document', bib: 'BibTeX (.bib)', ris: 'RIS (.ris)', txt: 'Plain text (.txt)' },
+                    preview: 'Citation preview', exp: 'Export', cp: 'Copy', rm: 'Remove', clr: 'Clear all',
+                    printT: 'Reference list — Isnad platform', printNote: 'Auto-generated in',
+                    aiQ: '✦ Try a random topic', cites: 'citations',
+                    empty: 'No matching live results — try widening the year range, reducing filters, or rephrasing the query.',
+                    srcLabel: 'Databases currently connected', all: 'All',
+                    startPrompt: 'Type any topic (technical, medical, educational, humanities…) and hit search — this queries real scholarly databases live.',
+                    searching: 'Querying live databases…', noAbs: 'No abstract available for this work from the source database.',
+                    partialErr: 'Could not reach right now: ',
+                    extTitle: 'Direct search links (no public API — opens on the source site)',
+                    extHint: 'These platforms have no public API, so results open directly on their own site.'
+                }
+            };
+            var SAMPLE_TOPICS = {
+                ar: ['الذكاء الاصطناعي في التعليم', 'تغير المناخ', 'الفقه الإسلامي المقارن', 'علم الأعصاب', 'أمن المعلومات', 'الطاقة المتجددة', 'علم الاجتماع الرقمي', 'تاريخ الحضارة الإسلامية'],
+                en: ['artificial intelligence in education', 'climate change adaptation', 'comparative Islamic jurisprudence', 'neuroscience of memory', 'cybersecurity', 'renewable energy storage', 'digital sociology', 'history of Islamic civilization']
+            };
+
+            var state = {
+                lang: 'ar', q: '', srcs: new Set(['all']), yfrom: 0, yto: 0, field: 'all', sort: 'rel',
+                basket: [], style: 'apa', format: 'pdf', ai: true, expanded: null, aiId: null,
+                results: [], loading: false, searched: false, errSrcs: [],
+                page: 1, filterType: null, filterSrc: null
+            };
+            var PAGE_SIZE = 10;
+            var reqToken = 0;
+
+            function t(k) { return D[state.lang][k]; }
+            function itemTitle(it) { return it.title[state.lang]; }
+            function itemAuthors(it) { return it.authors[state.lang]; }
+            function itemVenue(it) { return it.venue[state.lang]; }
+            function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+            function parseAuthors(s) { return (s || '').split(';').map(function(x) { return x.trim(); }).filter(Boolean); }
+            function ini(first) { return first ? first.split(/[\s\u00A0-]+/).filter(Boolean).map(function(w) { return w.charAt(0) + '.'; }).join(' ') : ''; }
+
+            function apaAuthors(parts) {
+                var fmt = function(p) { var c = p.split(','); return c[0].trim() + (c[1] ? ', ' + ini(c[1].trim()) : ''); };
+                if (parts.length === 1) return fmt(parts[0]);
+                return parts.map(function(p, i) { return i === parts.length - 1 ? '& ' + fmt(p) : fmt(p); }).join(', ');
+            }
+            function mlaAuthors(parts) {
+                if (parts.length > 3) { var f = parts[0].split(','); return f[0].trim() + ', ' + (f[1] ? f[1].trim() : '') + ' et al.'; }
+                if (parts.length === 1) { var p = parts[0].split(','); return p[0].trim() + ', ' + (p[1] ? p[1].trim() : ''); }
+                var first = parts[0].split(',');
+                var s = first[0].trim() + ', ' + (first[1] ? first[1].trim() : '');
+                var rest = parts.slice(1).map(function(p) { var c = p.split(','); return (c[1] ? c[1].trim() : '') + ' ' + c[0].trim(); });
+                return s + ', and ' + rest.join(', ');
+            }
+            function ieeeAuthors(parts) {
+                if (parts.length > 6) { var c0 = parts[0].split(','); return ini(c0[1] ? c0[1].trim() : '') + ' ' + c0[0].trim() + ' et al.'; }
+                return parts.map(function(p, i) { var c = p.split(','); var s = ini(c[1] ? c[1].trim() : '') + ' ' + c[0].trim(); return i === parts.length - 1 && parts.length > 1 ? 'and ' + s : s; }).join(', ');
+            }
+            function vanAuthors(parts) {
+                return parts.map(function(p) { var c = p.split(','); return c[0].trim() + ' ' + ini(c[1] ? c[1].trim() : '').replace(/\.\s/g, '').replace(/\.$/, ''); }).join(', ');
+            }
+            function bibKey(it) { return (it.authors.en.split(';')[0].split(',')[0] || 'ref').trim().replace(/[^A-Za-z]/g, '').toLowerCase() + it.year; }
+
+            function fmt(it, style) {
+                var ar = state.lang === 'ar';
+                var A = itemAuthors(it), T = itemTitle(it), V = itemVenue(it), Y = it.year, U = it.url;
+                var parts = parseAuthors(it.authors.en);
+                var n = Math.max(1, state.basket.indexOf(it.id) + 1);
+                if (ar) {
+                    var yr = Y + 'م';
+                    if (style === 'apa') return A + ' (' + yr + '). ' + T + '. ' + V + '. متاح عبر: ' + U;
+                    if (style === 'mla') return A + '. «' + T + '.» ' + V + ', ' + yr + '. ' + U;
+                    if (style === 'chicago') return A + '. ' + yr + '. «' + T + '.» ' + V + '. ' + U;
+                    if (style === 'ieee') return '[' + n + '] ' + A + ', «' + T + '،» ' + V + ', ' + yr + '.';
+                    if (style === 'vancouver') return A + '. ' + T + '. ' + V + '. ' + yr + '.';
+                    if (style === 'harvard') return A + ' (' + yr + ') «' + T + '»، ' + V + '. متاح عبر: ' + U;
+                }
+                if (style === 'apa') return apaAuthors(parts) + ' (' + Y + '). ' + T + '. ' + V + '. ' + U;
+                if (style === 'mla') return mlaAuthors(parts) + '. "' + T + '." ' + V + ', ' + Y + '. ' + U;
+                if (style === 'chicago') {
+                    var ch = parts[0].split(',');
+                    var chS = ch[0].trim() + ', ' + (ch[1] ? ch[1].trim() : '');
+                    if (parts.length > 1) chS += ', and ' + parts.slice(1).map(function(p) { var c = p.split(','); return (c[1] ? c[1].trim() : '') + ' ' + c[0].trim(); }).join(', ');
+                    return chS + '. ' + Y + '. "' + T + '." ' + V + '. ' + U;
+                }
+                if (style === 'ieee') return '[' + n + '] ' + ieeeAuthors(parts) + ', "' + T + '," ' + V + ', ' + Y + '.';
+                if (style === 'vancouver') return vanAuthors(parts) + '. ' + T + '. ' + V + '. ' + Y + '.';
+                if (style === 'harvard') {
+                    var hp = parts.map(function(p, i) { var c = p.split(','); var f = c[0].trim() + (c[1] ? ', ' + ini(c[1].trim()) : ''); return i === parts.length - 1 && parts.length > 1 ? 'and ' + f : f; }).join(', ');
+                    return hp + ' (' + Y + ') \u0027' + T + '\u0027, ' + V + '. Available at: ' + U + '.';
+                }
+                return '';
+            }
+            function bibtex(it) {
+                var parts = parseAuthors(it.authors.en).map(function(p) { var c = p.split(','); return (c[1] ? c[1].trim() : '') + ' ' + c[0].trim(); }).join(' and ');
+                var ty = it.type === 'book' ? 'book' : 'article';
+                return '@' + ty + '{' + bibKey(it) + ',\n  author    = {' + parts + '},\n  title     = {' + it.title.en + '},\n  ' + (ty === 'book' ? 'publisher' : 'journal') + ' = {' + it.venue.en + '},\n  year      = {' + it.year + '},\n  url       = {' + it.url + '}\n}';
+            }
+            function ris(it) {
+                var ty = it.type === 'book' ? 'BOOK' : 'JOUR';
+                var parts = parseAuthors(it.authors.en).map(function(p) { var c = p.split(','); return 'AU  - ' + (c[1] ? c[1].trim() : '') + ' ' + c[0].trim(); }).join('\n');
+                return 'TY  - ' + ty + '\n' + parts + '\nTI  - ' + it.title.en + '\n' + (ty === 'BOOK' ? 'PB' : 'T2') + '  - ' + it.venue.en + '\nPY  - ' + it.year + '\nUR  - ' + it.url + '\nER  - ';
+            }
+            function citationsText(style) {
+                return state.basket.map(function(id) {
+                    var it = state.allKnown[id];
+                    if (!it) return '';
+                    if (style === 'bibtex') return bibtex(it);
+                    if (style === 'ris') return ris(it);
+                    return fmt(it, style);
+                }).filter(Boolean).join('\n\n');
+            }
+
+            // ============ محوّلات الأسماء والبيانات ============
+            function splitFullName(full) {
+                var parts = (full || '').trim().split(/\s+/).filter(Boolean);
+                if (!parts.length) return { family: 'Unknown', given: '' };
+                if (parts.length === 1) return { family: parts[0], given: '' };
+                return { family: parts[parts.length - 1], given: parts.slice(0, -1).join(' ') };
+            }
+            function authorsFromFullNames(names) {
+                if (!names || !names.length) return 'Unknown';
+                return names.map(function(full) { var p = splitFullName(full); return p.family + (p.given ? ', ' + p.given : ''); }).join('; ');
+            }
+            function authorsFromPubmedNames(names) {
+                if (!names || !names.length) return 'Unknown';
+                return names.map(function(full) {
+                    var parts = (full || '').trim().split(/\s+/).filter(Boolean);
+                    var fam = parts[0] || 'Unknown', giv = parts.slice(1).join(' ');
+                    return fam + (giv ? ', ' + giv : '');
+                }).join('; ');
+            }
+            function authorsFromGivenFamily(list) {
+                if (!list || !list.length) return 'Unknown';
+                return list.map(function(a) { var fam = (a.family || '').trim(), giv = (a.given || '').trim(); return fam ? fam + (giv ? ', ' + giv : '') : (giv || 'Unknown'); }).join('; ');
+            }
+            function mapType(raw) {
+                raw = (raw || '').toLowerCase();
+                if (raw.indexOf('book') >= 0 || raw.indexOf('monograph') >= 0) return 'book';
+                if (raw.indexOf('proceedings') >= 0 || raw.indexOf('conference') >= 0) return 'proc';
+                if (raw.indexOf('journal') >= 0 || raw.indexOf('article') >= 0 || raw.indexOf('review') >= 0) return 'article';
+                return 'other';
+            }
+            function reconstructAbstract(inv) {
+                if (!inv) return '';
+                var maxIdx = -1;
+                for (var w in inv) { inv[w].forEach(function(i) { if (i > maxIdx) maxIdx = i; }); }
+                if (maxIdx < 0) return '';
+                var words = new Array(maxIdx + 1);
+                for (var w2 in inv) { inv[w2].forEach(function(i) { words[i] = w2; }); }
+                return words.filter(Boolean).join(' ');
+            }
+            function safeUrl(u) { u = String(u || '').trim(); return /^https?:\/\//i.test(u) ? u : ''; }
+            function stripXml(s) { return (s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(); }
+            function normTitle(s) { return (s || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim(); }
+
+            function fetchWithTimeout(url, ms) {
+                var ctrl = new AbortController();
+                var id = setTimeout(function() { ctrl.abort(); }, ms || 9000);
+                return fetch(url, { signal: ctrl.signal }).finally(function() { clearTimeout(id); });
+            }
+
+            function effectiveQuery() {
+                var q = state.q.trim();
+                var boost = FIELDS[state.field] && FIELDS[state.field].boost;
+                return boost ? (q + ' ' + boost) : q;
+            }
+
+            function searchOpenAlex() {
+                var q = effectiveQuery();
+                var url = 'https://api.openalex.org/works?search=' + encodeURIComponent(q) + '&per-page=10' + (CONFIG.openalexKey ? '&api_key=' + encodeURIComponent(CONFIG.openalexKey) : '') + (CONFIG.mailto ? '&mailto=' + encodeURIComponent(CONFIG.mailto) : '');
+                if (state.yfrom) url += '&filter=from_publication_date:' + state.yfrom + '-01-01';
+                if (state.yto) url += (state.yfrom ? ',' : '&filter=') + 'to_publication_date:' + state.yto + '-12-31';
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('openalex'); return r.json(); }).then(function(data) {
+                    return (data.results || []).map(function(w) {
+                        var venue = (w.primary_location && w.primary_location.source && w.primary_location.source.display_name) || (w.host_venue && w.host_venue.display_name) || '';
+                        var doi = w.doi ? w.doi.replace('https://doi.org/', '') : null;
+                        var url2 = w.doi || (w.primary_location && w.primary_location.landing_page_url) || w.id;
+                        var abs = reconstructAbstract(w.abstract_inverted_index);
+                        var concepts = (w.concepts || []).slice().sort(function(a, b) { return b.score - a.score; }).slice(0, 4).map(function(c) { return c.display_name; });
+                        var title = w.title || w.display_name || '(بلا عنوان)';
+                        return {
+                            title: { ar: title, en: title },
+                            authors: { ar: authorsFromFullNames((w.authorships || []).map(function(a) { return a.author && a.author.display_name; }).filter(Boolean)), en: authorsFromFullNames((w.authorships || []).map(function(a) { return a.author && a.author.display_name; }).filter(Boolean)) },
+                            year: w.publication_year || 0,
+                            venue: { ar: venue, en: venue },
+                            srcs: ['openalex'], url: url2, doi: doi,
+                            type: mapType(w.type), field: 'all', cites: w.cited_by_count || 0,
+                            oa: !!(w.open_access && w.open_access.is_oa),
+                            abs: { ar: abs, en: abs },
+                            keys: { ar: concepts, en: concepts }
+                        };
+                    });
+                }).catch(function() { state.errSrcs.push('openalex'); return []; });
+            }
+
+            function searchCrossref() {
+                var q = effectiveQuery();
+                var url = 'https://api.crossref.org/works?query=' + encodeURIComponent(q) + '&rows=10' + (CONFIG.mailto ? '&mailto=' + encodeURIComponent(CONFIG.mailto) : '');
+                var filt = [];
+                if (state.yfrom) filt.push('from-pub-date:' + state.yfrom + '-01-01');
+                if (state.yto) filt.push('until-pub-date:' + state.yto + '-12-31');
+                if (filt.length) url += '&filter=' + filt.join(',');
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('crossref'); return r.json(); }).then(function(data) {
+                    return ((data.message && data.message.items) || []).map(function(w) {
+                        var title = (w.title && w.title[0]) || '(بلا عنوان)';
+                        var venue = (w['container-title'] && w['container-title'][0]) || w.publisher || '';
+                        var year = (w.published && w.published['date-parts'] && w.published['date-parts'][0] && w.published['date-parts'][0][0]) || (w.issued && w.issued['date-parts'] && w.issued['date-parts'][0] && w.issued['date-parts'][0][0]) || 0;
+                        var abs = stripXml(w.abstract);
+                        return {
+                            title: { ar: title, en: title },
+                            authors: { ar: authorsFromGivenFamily(w.author), en: authorsFromGivenFamily(w.author) },
+                            year: year, venue: { ar: venue, en: venue },
+                            srcs: ['crossref'], url: w.DOI ? ('https://doi.org/' + w.DOI) : w.URL, doi: w.DOI || null,
+                            type: mapType(w.type), field: 'all', cites: w['is-referenced-by-count'] || 0,
+                            oa: false,
+                            abs: { ar: abs, en: abs }, keys: { ar: [], en: [] }
+                        };
+                    });
+                }).catch(function() { state.errSrcs.push('crossref'); return []; });
+            }
+
+            function searchSemantic() {
+                var q = effectiveQuery();
+                var url = 'https://api.semanticscholar.org/graph/v1/paper/search?query=' + encodeURIComponent(q) + '&limit=10&fields=title,abstract,year,authors,venue,citationCount,externalIds,url,publicationTypes,openAccessPdf';
+                if (state.yfrom || state.yto) url += '&year=' + (state.yfrom || '') + '-' + (state.yto || '');
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('semantic'); return r.json(); }).then(function(data) {
+                    return (data.data || []).map(function(w) {
+                        var title = w.title || '(بلا عنوان)';
+                        var doi = w.externalIds && w.externalIds.DOI;
+                        var abs = w.abstract || '';
+                        var ptypes = w.publicationTypes || [];
+                        return {
+                            title: { ar: title, en: title },
+                            authors: { ar: authorsFromFullNames((w.authors || []).map(function(a) { return a.name; })), en: authorsFromFullNames((w.authors || []).map(function(a) { return a.name; })) },
+                            year: w.year || 0, venue: { ar: w.venue || '', en: w.venue || '' },
+                            srcs: ['semantic'], url: doi ? ('https://doi.org/' + doi) : w.url, doi: doi || null,
+                            type: mapType(ptypes[0]), field: 'all', cites: w.citationCount || 0,
+                            oa: !!w.openAccessPdf,
+                            abs: { ar: abs, en: abs }, keys: { ar: [], en: [] }
+                        };
+                    });
+                }).catch(function() { state.errSrcs.push('semantic'); return []; });
+            }
+
+            function searchPubmed() {
+                var q = effectiveQuery();
+                var esearch = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=10&term=' + encodeURIComponent(q);
+                if (state.yfrom || state.yto) esearch += '&datetype=pdat&mindate=' + (state.yfrom || 1900) + '&maxdate=' + (state.yto || new Date().getFullYear());
+                return fetchWithTimeout(esearch).then(function(r) { if (!r.ok) throw new Error('pubmed'); return r.json(); }).then(function(sd) {
+                    var ids = (sd.esearchresult && sd.esearchresult.idlist) || [];
+                    if (!ids.length) return [];
+                    var esum = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=' + ids.join(',');
+                    return fetchWithTimeout(esum).then(function(r2) { if (!r2.ok) throw new Error('pubmed'); return r2.json(); }).then(function(data) {
+                        var res = data.result || {};
+                        return ids.map(function(id) {
+                            var w = res[id]; if (!w) return null;
+                            var doiObj = (w.articleids || []).filter(function(a) { return a.idtype === 'doi'; })[0];
+                            var year = 0; var m = /(\d{4})/.exec(w.pubdate || ''); if (m) year = +m[1];
+                            var title = w.title || '(بلا عنوان)';
+                            return {
+                                title: { ar: title, en: title },
+                                authors: { ar: authorsFromPubmedNames((w.authors || []).map(function(a) { return a.name; })), en: authorsFromPubmedNames((w.authors || []).map(function(a) { return a.name; })) },
+                                year: year, venue: { ar: w.fulljournalname || w.source || '', en: w.fulljournalname || w.source || '' },
+                                srcs: ['pubmed'], url: doiObj ? ('https://doi.org/' + doiObj.value) : ('https://pubmed.ncbi.nlm.nih.gov/' + id + '/'), doi: doiObj ? doiObj.value : null,
+                                type: 'article', field: 'all', cites: 0,
+                                oa: false,
+                                abs: { ar: '', en: '' }, keys: { ar: [], en: [] }
+                            };
+                        }).filter(Boolean);
+                    });
+                }).catch(function() { state.errSrcs.push('pubmed'); return []; });
+            }
+
+            function searchDOAJ() {
+                var q = effectiveQuery();
+                var url = 'https://doaj.org/api/search/articles/' + encodeURIComponent(q) + '?pageSize=10';
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('doaj'); return r.json(); }).then(function(data) {
+                    return ((data && data.results) || []).map(function(w) {
+                        var bj = w.bibjson || {};
+                        var title = bj.title || '(بلا عنوان)';
+                        var authors = (bj.author || []).map(function(a) { return a.name; }).filter(Boolean);
+                        var venue = (bj.journal && bj.journal.title) || '';
+                        var doiLink = (bj.identifier || []).filter(function(x) { return x.type === 'doi'; })[0];
+                        var urlLink = (bj.link || [])[0];
+                        var abs = bj.abstract || '';
+                        var keys = bj.keywords || [];
+                        return {
+                            title: { ar: title, en: title },
+                            authors: { ar: authorsFromFullNames(authors), en: authorsFromFullNames(authors) },
+                            year: bj.year ? +bj.year : 0, venue: { ar: venue, en: venue },
+                            srcs: ['doaj'], url: doiLink ? ('https://doi.org/' + doiLink.id) : (urlLink ? urlLink.url : '#'), doi: doiLink ? doiLink.id : null,
+                            type: 'article', field: 'all', cites: 0,
+                            oa: true,
+                            abs: { ar: abs, en: abs }, keys: { ar: keys, en: keys }
+                        };
+                    });
+                }).catch(function() { state.errSrcs.push('doaj'); return []; });
+            }
+
+            function searchGoogleBooks() {
+                var q = effectiveQuery();
+                var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(q) + '&maxResults=10';
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('gbooks'); return r.json(); }).then(function(data) {
+                    return ((data && data.items) || []).map(function(w) {
+                        var vi = w.volumeInfo || {};
+                        var title = vi.title || '(بلا عنوان)';
+                        var year = 0; var m = /(\d{4})/.exec(vi.publishedDate || ''); if (m) year = +m[1];
+                        var venue = vi.publisher || 'Google Books';
+                        var abs = stripXml(vi.description || '');
+                        var keys = vi.categories || [];
+                        return {
+                            title: { ar: title, en: title },
+                            authors: { ar: authorsFromFullNames(vi.authors || []), en: authorsFromFullNames(vi.authors || []) },
+                            year: year, venue: { ar: venue, en: venue },
+                            srcs: ['gbooks'], url: vi.previewLink || vi.infoLink || w.selfLink, doi: null,
+                            type: 'book', field: 'all', cites: 0,
+                            oa: false,
+                            abs: { ar: abs, en: abs }, keys: { ar: keys, en: keys }
+                        };
+                    });
+                }).catch(function() { state.errSrcs.push('gbooks'); return []; });
+            }
+
+            function searchInternetArchive() {
+                var q = effectiveQuery();
+                var url = 'https://archive.org/advancedsearch.php?q=' + encodeURIComponent(q) + '+AND+mediatype:texts&fl[]=identifier&fl[]=title&fl[]=creator&fl[]=year&fl[]=publisher&fl[]=description&rows=10&page=1&output=json';
+                return fetchWithTimeout(url).then(function(r) { if (!r.ok) throw new Error('iarchive'); return r.json(); }).then(function(data) {
+                    var docs = (data && data.response && data.response.docs) || [];
+                    return docs.map(function(w) {
+                        var title = w.title || '(بلا عنوان)';
+                        var creator = w.creator; var authors = Array.isArray(creator) ? creator : (creator ? [creator] : []);
+                        var desc = w.description; var abs = stripXml(Array.isArray(desc) ? desc[0] : (desc || ''));
+                        var year = 0; if (w.year) year = parseInt(w.year, 10) || 0;
+                        return {
+                            title: { ar: title, en: title },
+                            authors: { ar: authorsFromFullNames(authors), en: authorsFromFullNames(authors) },
+                            year: year, venue: { ar: w.publisher || 'Internet Archive', en: w.publisher || 'Internet Archive' },
+                            srcs: ['iarchive'], url: 'https://archive.org/details/' + w.identifier, doi: null,
+                            type: 'book', field: 'all', cites: 0,
+                            oa: false,
+                            abs: { ar: abs, en: abs }, keys: { ar: [], en: [] }
+                        };
+                    });
+                }).catch(function() { state.errSrcs.push('iarchive'); return []; });
+            }
+
+            function dedupe(items) {
+                var out = [], seen = {};
+                items.forEach(function(it) {
+                    var key = it.doi ? ('doi:' + it.doi.toLowerCase()) : ('t:' + normTitle(it.title.en).slice(0, 90) + ':' + it.year);
+                    if (seen[key]) {
+                        var ex = seen[key];
+                        it.srcs.forEach(function(s) { if (ex.srcs.indexOf(s) < 0) ex.srcs.push(s); });
+                        if ((it.abs.en || '').length > (ex.abs.en || '').length) ex.abs = it.abs;
+                        if ((it.cites || 0) > (ex.cites || 0)) ex.cites = it.cites;
+                        if ((!ex.keys.en || !ex.keys.en.length) && it.keys.en && it.keys.en.length) ex.keys = it.keys;
+                        if (!ex.doi && it.doi) { ex.doi = it.doi; ex.url = it.url; }
+                        if (it.oa && !ex.oa) ex.oa = true;
+                    } else { seen[key] = it; out.push(it); }
+                });
+                return out;
+            }
+
+            function activeSrcs() {
+                if (state.srcs.has('all')) return Object.keys(SRCS).filter(function(k) { return k !== 'all'; });
+                return Array.from(state.srcs);
+            }
+
+            function runSearch() {
+                var q = state.q.trim();
+                state.expanded = null; state.aiId = null; state.errSrcs = []; state.page = 1; state.filterType = null; state.filterSrc = null;
+                if (!q) { state.results = []; state.searched = false; render(); return; }
+                state.loading = true; state.searched = true; render();
+                var my = ++reqToken;
+                var srcs = activeSrcs();
+                var jobs = [];
+                if (srcs.indexOf('openalex') >= 0) jobs.push(searchOpenAlex());
+                if (srcs.indexOf('crossref') >= 0) jobs.push(searchCrossref());
+                if (srcs.indexOf('semantic') >= 0) jobs.push(searchSemantic());
+                if (srcs.indexOf('pubmed') >= 0) jobs.push(searchPubmed());
+                if (srcs.indexOf('doaj') >= 0) jobs.push(searchDOAJ());
+                if (srcs.indexOf('gbooks') >= 0) jobs.push(searchGoogleBooks());
+                if (srcs.indexOf('iarchive') >= 0) jobs.push(searchInternetArchive());
+                var heritageResults = (srcs.indexOf('heritage') >= 0) ? searchHeritage(q) : [];
+                Promise.all(jobs).then(function(lists) {
+                    if (my !== reqToken) return;
+                    var inter = [], mx = Math.max.apply(null, lists.map(function(l) { return l.length; }).concat([0]));
+                    for (var ii = 0; ii < mx; ii++) lists.forEach(function(l) { if (l[ii]) inter.push(l[ii]); });
+                    var merged = dedupe(inter.concat(heritageResults));
+                    if (state.yfrom) merged = merged.filter(function(it) { return !it.year || it.year >= state.yfrom; });
+                    if (state.yto) merged = merged.filter(function(it) { return !it.year || it.year <= state.yto; });
+                    merged.forEach(function(it) { it.id = 'r' + (++uidSeq); it.url = safeUrl(it.url); });
+                    if (state.sort === 'yd') merged.sort(function(a, b) { return b.year - a.year; });
+                    else if (state.sort === 'ya') merged.sort(function(a, b) { return a.year - b.year; });
+                    else if (state.sort === 'c') merged.sort(function(a, b) { return (b.cites || 0) - (a.cites || 0); });
+                    state.results = merged;
+                    state.allKnown = state.allKnown || {};
+                    merged.forEach(function(it) { state.allKnown[it.id] = it; });
+                    state.loading = false;
+                    render();
+                });
+            }
+
+            var app = document.getElementById('app');
+
+            function yearOpts(sel) {
+                var o = '<option value="0"' + (sel === 0 ? ' selected' : '') + '>' + t('all') + '</option>';
+                for (var y = new Date().getFullYear(); y >= 1500; y--) { o += '<option value="' + y + '"' + (y === sel ? ' selected' : '') + '>' + (state.lang === 'ar' ? y + 'م' : y) + '</option>'; }
+                return o;
+            }
+
+            // ============ عناصر مستوحاة من واجهة OpenAlex: توزيع السنوات، فلاتر جانبية حية، ترقيم صفحات ============
+            function yearHistogram() {
+                var withYear = state.results.filter(function(it) { return it.year; });
+                if (withYear.length < 4) return '';
+                var minY = Math.min.apply(null, withYear.map(function(it) { return it.year; }));
+                var maxY = Math.max.apply(null, withYear.map(function(it) { return it.year; }));
+                if (minY === maxY) return '';
+                var buckets = 16;
+                var span = Math.max(1, maxY - minY);
+                var counts = new Array(buckets).fill(0);
+                withYear.forEach(function(it) {
+                    var idx = Math.min(buckets - 1, Math.floor(((it.year - minY) / span) * buckets));
+                    counts[idx]++;
+                });
+                var maxC = Math.max.apply(null, counts);
+                var bars = counts.map(function(c) {
+                    var h = maxC ? Math.max(3, Math.round((c / maxC) * 32)) : 3;
+                    return '<div title="' + c + '" style="flex:1;height:' + h + 'px;background:#7fb8e6;border-radius:2px 2px 0 0"></div>';
+                }).join('');
+                return '<div style="margin-bottom:8px"><div style="display:flex;align-items:flex-end;gap:2px;height:32px">' + bars + '</div>' +
+                    '<div style="display:flex;justify-content:space-between;font-size:11px;color:#35566f;margin-top:2px"><span>' + minY + '</span><span>' + maxY + '</span></div></div>';
+            }
+            function baseForType() { return state.filterSrc ? state.results.filter(function(it) { return it.srcs.indexOf(state.filterSrc) >= 0; }) : state.results; }
+            function baseForSrc() { return state.filterType ? state.results.filter(function(it) { return it.type === state.filterType; }) : state.results; }
+            function typeCounts() {
+                var c = {}; baseForType().forEach(function(it) { c[it.type] = (c[it.type] || 0) + 1; }); return c;
+            }
+            function srcCounts() {
+                var c = {}; baseForSrc().forEach(function(it) { it.srcs.forEach(function(s) { c[s] = (c[s] || 0) + 1; }); }); return c;
+            }
+            function visibleResults() {
+                return state.results.filter(function(it) {
+                    if (state.filterType && it.type !== state.filterType) return false;
+                    if (state.filterSrc && it.srcs.indexOf(state.filterSrc) < 0) return false;
+                    return true;
+                });
+            }
+            function pagedResults() {
+                var vis = visibleResults();
+                var start = (state.page - 1) * PAGE_SIZE;
+                return { items: vis.slice(start, start + PAGE_SIZE), total: vis.length, pages: Math.max(1, Math.ceil(vis.length / PAGE_SIZE)) };
+            }
+
+            function render() {
+                var L = state.lang;
+                var h = '';
+                h += '<div class="hero" style="max-width:1200px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(120deg,#0b3f6b 0%,#1668a8 55%,#2a8fc9 100%);padding:22px 26px;box-shadow:0 4px 16px rgba(11,37,64,.25);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">';
+                h += '<div><div style="font-size:26px;font-weight:700;color:#ffffff">' + t('brand') + ' <span style="font-size:12px;color:#e6f5fd;font-weight:400;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:2px 8px;vertical-align:middle">' + t('proto') + '</span></div>';
+                h += '<div style="font-size:13px;color:#dcecfa;margin-top:6px;max-width:640px">' + t('tag') + '</div></div>';
+                h += '<button class="btn" id="langBtn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.5);color:#fff">' + SVG.tr + ' ' + (L === 'ar' ? 'English' : 'العربية') + '</button></div>';
+                h += '<div style="max-width:1200px;margin:auto"><div class="card" style="margin-bottom:16px">';
+                h += '<div style="display:flex;gap:8px;margin-bottom:12px"><input class="inp" id="q" aria-label="' + t('search') + '" placeholder="' + t('searchPh') + '" value="' + esc(state.q) + '" style="flex:1">';
+                h += '<button class="btn solid" id="goBtn"' + (state.loading ? ' disabled' : '') + '>' + (state.loading ? '<span class="spinner"></span>' : SVG.search) + ' ' + t('search') + '</button></div>';
+                h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">';
+                h += '<div class="switch' + (state.ai ? ' on' : '') + '" id="aiSw" role="switch" tabindex="0" aria-checked="' + state.ai + '"></div><span style="font-size:13px;color:#1f3b52">' + t('ai') + ' <span style="color:#35566f">· ' + t('aiHint') + '</span></span>';
+                h += '<button class="chip" id="aiQBtn" style="margin-inline-start:auto">' + t('aiQ') + '</button></div>';
+                h += '<span class="lbl">' + t('srcLabel') + '</span>';
+                h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">' + Object.keys(SRCS).map(function(k) {
+                    var dot = SRC_COLOR[k] ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + SRC_COLOR[k] + ';margin-inline-end:6px;vertical-align:middle"></span>' : '';
+                    return '<button class="chip' + (state.srcs.has(k) ? ' on' : '') + '" aria-pressed="' + state.srcs.has(k) + '" data-src="' + k + '">' + dot + SRCS[k][L] + '</button>';
+                }).join('') + '</div>';
+                h += '<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">';
+                h += '<div style="flex-basis:100%">' + yearHistogram() + '</div>';
+                h += '<div><span class="lbl">' + t('from') + '</span><select class="inp" id="yf">' + yearOpts(state.yfrom) + '</select></div>';
+                h += '<div><span class="lbl">' + t('to') + '</span><select class="inp" id="yt">' + yearOpts(state.yto) + '</select></div>';
+                h += '<div><span class="lbl">' + t('field') + '</span><select class="inp" id="fld">' + Object.keys(FIELDS).map(function(k) { return '<option value="' + k + '"' + (state.field === k ? ' selected' : '') + '>' + FIELDS[k][L] + '</option>'; }).join('') + '</select></div>';
+                h += '<div><span class="lbl">' + t('sort') + '</span><select class="inp" id="srt">' + ['rel', 'yd', 'ya', 'c'].map(function(k) { return '<option value="' + k + '"' + (state.sort === k ? ' selected' : '') + '>' + t('s' + k.charAt(0).toUpperCase() + k.slice(1)) + '</option>'; }).join('') + '</select></div>';
+                h += '</div></div>';
+
+                // روابط البحث الخارجية المباشرة
+                if (state.q.trim()) {
+                    h += '<div class="card" style="margin-bottom:16px">';
+                    h += '<div style="font-size:13px;font-weight:700;margin-bottom:2px">' + t('extTitle') + '</div>';
+                    h += '<div style="font-size:12px;color:#35566f;margin-bottom:10px">' + t('extHint') + '</div>';
+                    h += '<div style="display:flex;gap:8px;flex-wrap:wrap">' + Object.keys(EXT).map(function(k) {
+                        return '<a class="btn" target="_blank" rel="noopener noreferrer" href="' + EXT[k].build(state.q.trim()) + '">' + SVG.link + ' ' + EXT[k][L] + '</a>';
+                    }).join('') + '</div></div>';
+                }
+
+                h += '<div class="grid"><div>';
+                var nSrc = {}; state.results.forEach(function(it) { it.srcs.forEach(function(s) { nSrc[s] = 1; }); });
+                h += '<div style="font-size:15px;font-weight:700;margin-bottom:12px">' + t('results');
+                if (state.searched && !state.loading) h += ' <span style="color:#35566f;font-weight:400;font-size:13px">— ' + state.results.length + ' ' + t('found1') + ' ' + Object.keys(nSrc).length + ' ' + t('found2') + '</span>';
+                h += '</div>';
+                if (state.errSrcs.length) h += '<div style="font-size:12px;color:#a55;margin-bottom:10px">' + t('partialErr') + state.errSrcs.map(function(s) { return SRCS[s] ? SRCS[s][L] : s; }).join('، ') + '</div>';
+                if (!state.searched) h += '<div class="card" style="color:#1f3b52">' + t('startPrompt') + '</div>';
+                else if (state.loading) h += '<div class="card" role="status" aria-live="polite" style="color:#1f3b52"><span class="spinner"></span>' + t('searching') + '</div>';
+                else if (!state.results.length) h += '<div class="card" style="color:#1f3b52">' + t('empty') + '</div>';
+
+                // فلاتر جانبية حية (نوع العمل ومصدره) محسوبة من النتائج الحالية بلا أي طلب شبكي جديد
+                if (state.searched && !state.loading && state.results.length) {
+                    var tc = typeCounts(), sc = srcCounts();
+                    h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">';
+                    h += '<button class="chip' + (!state.filterType ? ' on' : '') + '" data-ftype="">' + t('all') + ' (' + state.results.length + ')</button>';
+                    Object.keys(tc).forEach(function(k) {
+                        h += '<button class="chip' + (state.filterType === k ? ' on' : '') + '" data-ftype="' + k + '">' + TYPES[k][L] + ' (' + tc[k] + ')</button>';
+                    });
+                    h += '</div>';
+                    h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">';
+                    h += '<button class="chip' + (!state.filterSrc ? ' on' : '') + '" data-fsrc="">' + t('all') + '</button>';
+                    Object.keys(sc).forEach(function(k) {
+                        var dot = SRC_COLOR[k] ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + SRC_COLOR[k] + ';margin-inline-end:6px;vertical-align:middle"></span>' : '';
+                        h += '<button class="chip' + (state.filterSrc === k ? ' on' : '') + '" data-fsrc="' + k + '">' + dot + SRCS[k][L] + ' (' + sc[k] + ')</button>';
+                    });
+                    h += '</div>';
+                }
+
+                var pg = pagedResults();
+
+                pg.items.forEach(function(it) {
+                    var open_ = state.expanded === it.id;
+                    h += '<div class="res" data-id="' + it.id + '">';
+                    h += '<div style="font-size:15px;font-weight:700;line-height:1.5;margin-bottom:6px">' + esc(itemTitle(it)) + '</div>';
+                    h += '<div class="meta" style="margin-bottom:8px">' + esc(itemAuthors(it)) + ' · ' + esc(itemVenue(it)) + (it.year ? (' · ' + it.year + (L === 'ar' ? 'م' : '')) : '') + '</div>';
+                    h += '<div style="margin-bottom:8px"><span class="badge">' + TYPES[it.type][L] + '</span>' + (it.oa ? '<span class="badge" style="background:#2f7d32;color:#fff;font-weight:600">' + (L === 'ar' ? 'وصول مفتوح' : 'Open Access') + '</span>' : '') + it.srcs.map(function(s) { return '<span class="badge" style="background:' + (SRC_COLOR[s] || '#1668a8') + ';color:#fff;font-weight:600">' + SRCS[s][L] + '</span>'; }).join('') + (it.cites ? '<span class="badge">' + it.cites.toLocaleString(L === 'ar' ? 'ar-EG' : 'en-US') + ' ' + t('cites') + '</span>' : '') + '</div>';
+                    h += '<div class="res-actions" data-stop="1">';
+                    if (it.url) h += '<a class="act" href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">' + SVG.link + ' ' + t('open') + '</a>';
+                    var saved = state.basket.indexOf(it.id) >= 0;
+                    h += '<button class="act" data-save="' + it.id + '">' + SVG.bm + ' ' + (saved ? t('saved') : t('save')) + '</button>';
+                    if (state.ai) h += '<button class="act" data-ai="' + it.id + '">✦ ' + (state.aiId === it.id ? '−' : '+') + ' ' + t('aiSum') + '</button>';
+                    h += '</div>';
+                    if (open_) {
+                        h += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid #7fb8e6">';
+                        h += '<div style="font-size:13px;line-height:1.7;margin-bottom:8px">' + esc(it.abs[L] || t('noAbs')) + '</div>';
+                        h += '<div style="font-size:12px;color:#35566f;word-break:break-all">' + esc(it.url) + '</div></div>';
+                    }
+                    if (state.ai && state.aiId === it.id) {
+                        h += '<div style="margin-top:12px;padding:12px;border:1px solid #7fb8e6;border-radius:8px;background:#eaf6ff">';
+                        h += '<div style="font-size:12px;color:#35566f;margin-bottom:4px">' + t('aiSum') + '</div>';
+                        h += '<div style="font-size:13px;line-height:1.7;margin-bottom:10px">' + esc(it.abs[L] || t('noAbs')) + '</div>';
+                        if (it.keys[L] && it.keys[L].length) {
+                            h += '<div style="font-size:12px;color:#35566f;margin-bottom:4px">' + t('aiKeys') + '</div>';
+                            h += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">' + it.keys[L].map(function(k) { return '<span class="badge">' + esc(k) + '</span>'; }).join('') + '</div>';
+                        }
+                        if (it.srcs.length > 1) h += '<div style="font-size:12px;color:#35566f">' + t('alsoIn') + ': ' + it.srcs.map(function(s) { return SRCS[s][L]; }).join('، ') + '</div>';
+                        h += '</div>';
+                    }
+                    h += '</div>';
+                });
+                if (pg.pages > 1) {
+                    h += '<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:16px 0">';
+                    for (var pnum = 1; pnum <= pg.pages; pnum++) {
+                        h += '<button class="btn' + (pnum === state.page ? ' solid' : '') + '" style="padding:6px 12px;min-width:36px;justify-content:center" data-page="' + pnum + '">' + pnum + '</button>';
+                    }
+                    h += '</div>';
+                }
+                h += '</div><div>';
+                h += '<div class="card" style="margin-bottom:16px"><div style="font-weight:700;margin-bottom:10px">' + t('basket') + ' <span style="color:#35566f;font-weight:400;font-size:13px">' + state.basket.length + '</span></div>';
+                if (!state.basket.length) h += '<div style="font-size:13px;color:#35566f">' + t('basketEmpty') + '</div>';
+                else {
+                    state.basket.forEach(function(id) {
+                        var it = state.allKnown && state.allKnown[id];
+                        if (!it) return;
+                        h += '<div style="display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-top:1px solid #7fb8e6;font-size:13px"><div style="flex:1"><div style="line-height:1.4">' + esc(itemTitle(it)) + '</div><div style="color:#35566f;font-size:12px;margin-top:2px">' + (it.year || '') + ' · ' + SRCS[it.srcs[0]][L] + '</div></div><button class="act" data-rm="' + id + '" style="padding:4px">✕ ' + t('rm') + '</button></div>';
+                    });
+                    h += '<button class="btn" id="clrBtn" style="margin-top:8px;font-size:13px;padding:6px 12px">' + t('clr') + '</button>';
+                }
+                h += '</div>';
+                h += '<div class="card"><div style="font-weight:700;margin-bottom:10px">' + t('exp') + '</div>';
+                h += '<span class="lbl">' + t('style') + '</span><select class="inp" id="sty" style="width:100%;margin-bottom:10px">' + Object.keys(t('styles')).map(function(k) { return '<option value="' + k + '"' + (state.style === k ? ' selected' : '') + '>' + t('styles')[k] + '</option>'; }).join('') + '</select>';
+                h += '<span class="lbl">' + t('format') + '</span><select class="inp" id="fmt" style="width:100%;margin-bottom:10px">' + Object.keys(t('formats')).map(function(k) { return '<option value="' + k + '"' + (state.format === k ? ' selected' : '') + '>' + t('formats')[k] + '</option>'; }).join('') + '</select>';
+                h += '<span class="lbl">' + t('preview') + '</span><textarea readonly id="pv">' + esc(state.basket.length ? citationsText(state.style) : '') + '</textarea>';
+                h += '<div style="display:flex;gap:8px;margin-top:10px"><button class="btn solid" id="expBtn" style="flex:1;justify-content:center">' + SVG.dl + ' ' + t('exp') + '</button><button class="btn" id="cpBtn">' + SVG.copy + ' ' + t('cp') + '</button></div>';
+                h += '</div></div></div></div>';
+                h += '<div style="max-width:1200px;margin:24px auto 4px;text-align:center;font-size:12px;font-weight:600;color:#0b2540">© د. حسن الشيباني — جامعة الزاوية</div>';
+                app.innerHTML = h;
+                app.setAttribute('dir', L === 'ar' ? 'rtl' : 'ltr');
+                document.documentElement.lang = L; document.documentElement.dir = L === 'ar' ? 'rtl' : 'ltr';
+                document.title = t('brand') + ' — ' + t('tag');
+                bind();
+            }
+
+            function bind() {
+                var langBtn = document.getElementById('langBtn');
+                if (langBtn) langBtn.onclick = function() { state.lang = state.lang === 'ar' ? 'en' : 'ar'; render(); };
+                var q = document.getElementById('q');
+                var goBtn = document.getElementById('goBtn');
+                function doSearch(e) { if (e) e.preventDefault(); if (state.loading) return; if (q) state.q = q.value.trim(); runSearch(); }
+                if (goBtn) goBtn.onclick = doSearch;
+                if (q) q.oninput = function() { state.q = q.value; };
+                if (q) q.onkeydown = function(e) { if (e.key === 'Enter') { e.preventDefault(); doSearch(); } };
+
+                var aiSw = document.getElementById('aiSw');
+                if (aiSw) { aiSw.onclick = function() { state.ai = !state.ai; state.aiId = null; render(); }; aiSw.onkeydown = function(e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); aiSw.onclick(); } }; }
+                var aiQBtn = document.getElementById('aiQBtn');
+                if (aiQBtn) aiQBtn.onclick = function() {
+                    var arr = SAMPLE_TOPICS[state.lang];
+                    state.q = arr[Math.floor(Math.random() * arr.length)];
+                    if (!state.loading) runSearch(); else render();
+                };
+                var yf = document.getElementById('yf'); if (yf) yf.onchange = function() { state.yfrom = +this.value; if (state.searched) runSearch(); else render(); };
+                var yt = document.getElementById('yt'); if (yt) yt.onchange = function() { state.yto = +this.value; if (state.searched) runSearch(); else render(); };
+                var fld = document.getElementById('fld'); if (fld) fld.onchange = function() { state.field = this.value; if (state.searched) runSearch(); else render(); };
+                var srt = document.getElementById('srt'); if (srt) srt.onchange = function() { state.sort = this.value; if (state.searched) runSearch(); else render(); };
+
+                app.querySelectorAll('[data-src]').forEach(function(el) {
+                    el.onclick = function() {
+                        var k = this.getAttribute('data-src');
+                        if (k === 'all') { state.srcs = new Set(['all']); }
+                        else {
+                            state.srcs.delete('all');
+                            if (state.srcs.has(k)) state.srcs.delete(k); else state.srcs.add(k);
+                            if (!state.srcs.size) state.srcs.add('all');
+                        }
+                        if (state.searched) runSearch(); else render();
+                    };
+                });
+                app.querySelectorAll('[data-ftype]').forEach(function(el) {
+                    el.onclick = function() { state.filterType = this.getAttribute('data-ftype') || null; state.page = 1; render(); };
+                });
+                app.querySelectorAll('[data-fsrc]').forEach(function(el) {
+                    el.onclick = function() { state.filterSrc = this.getAttribute('data-fsrc') || null; state.page = 1; render(); };
+                });
+                app.querySelectorAll('[data-page]').forEach(function(el) {
+                    el.onclick = function() { state.page = +this.getAttribute('data-page'); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+                });
+                app.querySelectorAll('.res').forEach(function(el) {
+                    el.onclick = function(e) { if (e.target.closest('[data-stop]')) return; var id = this.getAttribute('data-id'); state.expanded = state.expanded === id ? null : id; render(); };
+                });
+                app.querySelectorAll('[data-stop]').forEach(function(el) { el.addEventListener('click', function(e) { e.stopPropagation(); }); });
+                app.querySelectorAll('[data-save]').forEach(function(el) {
+                    el.onclick = function(e) { e.stopPropagation(); var id = this.getAttribute('data-save'); var i = state.basket.indexOf(id); if (i >= 0) state.basket.splice(i, 1); else state.basket.push(id); render(); };
+                });
+                app.querySelectorAll('[data-ai]').forEach(function(el) {
+                    el.onclick = function(e) { e.stopPropagation(); var id = this.getAttribute('data-ai'); state.aiId = state.aiId === id ? null : id; state.expanded = id; render(); };
+                });
+                app.querySelectorAll('[data-rm]').forEach(function(el) {
+                    el.onclick = function(e) { e.stopPropagation(); var id = this.getAttribute('data-rm'); var i = state.basket.indexOf(id); if (i >= 0) state.basket.splice(i, 1); render(); };
+                });
+                var clrBtn = document.getElementById('clrBtn'); if (clrBtn) clrBtn.onclick = function() { state.basket = []; render(); };
+                var sty = document.getElementById('sty'); if (sty) sty.onchange = function() { state.style = this.value; render(); };
+                var fmt2 = document.getElementById('fmt'); if (fmt2) fmt2.onchange = function() { state.format = this.value; };
+                var cpBtn = document.getElementById('cpBtn');
+                if (cpBtn) cpBtn.onclick = function() {
+                    var ta = document.getElementById('pv'); if (!ta || !ta.value) return; ta.select();
+                    try { document.execCommand('copy'); } catch (e) {}
+                    if (navigator.clipboard) navigator.clipboard.writeText(ta.value);
+                };
+                var expBtn = document.getElementById('expBtn'); if (expBtn) expBtn.onclick = exportFile;
+            }
+
+            function exportFile() {
+                if (!state.basket.length) return;
+                var L = state.lang, txt = citationsText(state.style);
+                if (state.format === 'pdf') {
+                    var pa = document.getElementById('printArea');
+                    pa.innerHTML = '<div dir="' + (L === 'ar' ? 'rtl' : 'ltr') + '" style=\"font-family:Calibri, Tahoma, &quot;Segoe UI&quot;, Arial, sans-serif;padding:32px;max-width:720px;margin:auto;color:#111">' +
+                        '<h1 style="font-size:20px">' + t('printT') + '</h1>' +
+                        '<p style="font-size:12px;color:#888">' + t('printNote') + ' ' + t('styles')[state.style] + ' · ' + new Date().toLocaleDateString(L === 'ar' ? 'ar' : 'en') + '</p><hr>' +
+                        txt.split('\n\n').map(function(c) { return '<p style="line-height:1.8;font-size:14px;margin:12px 0">' + esc(c).replace(/\n/g, '<br>') + '</p>'; }).join('') + '</div>';
+                    app.style.display = 'none'; pa.style.display = 'block';
+                    var done = function() { window.onafterprint = null; pa.style.display = 'none'; pa.innerHTML = ''; app.style.display = 'block'; };
+                    window.onafterprint = done;
+                    setTimeout(function() { window.print(); setTimeout(done, 2000); }, 80);
+                    return;
+                }
+                var mime = 'text/plain', ext = 'txt', body = txt;
+                if (state.format === 'word') {
+                    mime = 'application/msword'; ext = 'doc';
+                    body = '<html dir="' + (L === 'ar' ? 'rtl' : 'ltr') + '"><head><meta charset="utf-8"></head><body style="font-family:Calibri, Tahoma, &quot;Segoe UI&quot;, Arial, sans-serif"><h3>' + t('printT') + '</h3>' + txt.split('\n\n').map(function(c) { return '<p>' + esc(c).replace(/\n/g, '<br>') + '</p>'; }).join('') + '</body></html>';
+                }
+                if (state.format === 'bib') { body = state.basket.map(function(id) { var it = state.allKnown[id]; return it ? bibtex(it) : ''; }).filter(Boolean).join('\n\n'); }
+                if (state.format === 'ris') { mime = 'application/x-research-info-systems'; ext = 'ris'; body = state.basket.map(function(id) { var it = state.allKnown[id]; return it ? ris(it) : ''; }).filter(Boolean).join('\n\n'); }
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([body], { type: mime + ';charset=utf-8' }));
+                a.download = 'isnad-references.' + ext;
+                document.body.appendChild(a); a.click();
+                setTimeout(function() { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+            }
+            state.allKnown = {};
+            render();
+        })();
+    </script>
+</body>
+</html>

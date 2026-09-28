@@ -268,9 +268,17 @@
             // مصادر لا تملك واجهة برمجية عامة — تُفتح كروابط بحث مباشرة في موقعها
             function scholarUrl(q) { return 'https://scholar.google.com/scholar?hl=' + state.lang + '&q=' + encodeURIComponent(q) + (state.yfrom ? '&as_ylo=' + state.yfrom : '') + (state.yto ? '&as_yhi=' + state.yto : ''); }
             var EXT = {
-                scholar: { ar: 'Google Scholar', en: 'Google Scholar', build: function(q) { return scholarUrl(q); } },
-                mandumah: { ar: 'دار المنظومة', en: 'Dar Al Mandumah', build: function(q) { return 'https://search.mandumah.com/Search/Results?lookfor=' + encodeURIComponent(q); } },
-                shamela: { ar: 'المكتبة الشاملة', en: 'Al-Shamela', build: function(q) { return 'https://shamela.ws/search?q=' + encodeURIComponent(q); } }
+                shamela: { grp: 'ar', ar: 'المكتبة الشاملة', en: 'Al-Shamela', build: function(q) { return 'https://shamela.ws/search?q=' + encodeURIComponent(q); } },
+                mandumah: { grp: 'ar', ar: 'دار المنظومة', en: 'Dar Al Mandumah', build: function(q) { return 'https://search.mandumah.com/Search/Results?lookfor=' + encodeURIComponent(q); } },
+                shamaa: { grp: 'ar', copy: true, ar: 'شمعة (بحوث تربوية عربية)', en: 'Shamaa (Arab education research)', build: function() { return 'https://search.shamaa.org/'; } },
+                scholar: { grp: 'open', ar: 'Google Scholar', en: 'Google Scholar', build: function(q) { return scholarUrl(q); } },
+                base: { grp: 'open', ar: 'BASE (أكثر من 300 مليون وثيقة مفتوحة)', en: 'BASE (open-access documents)', build: function(q) { return 'https://www.base-search.net/Search/Results?lookfor=' + encodeURIComponent(q) + '&type=all&oaboost=1'; } },
+                core: { grp: 'open', ar: 'CORE (بحوث مفتوحة الوصول)', en: 'CORE (open-access research)', build: function(q) { return 'https://core.ac.uk/search?q=' + encodeURIComponent(q); } },
+                refseek: { grp: 'open', ar: 'RefSeek', en: 'RefSeek', build: function(q) { return 'https://www.refseek.com/search?q=' + encodeURIComponent(q); } },
+                jstor: { grp: 'open', ar: 'JSTOR (المحتوى المفتوح)', en: 'JSTOR (open content)', build: function(q) { return 'https://www.jstor.org/action/doBasicSearch?Query=' + encodeURIComponent(q) + '&acc=on'; } },
+                eric: { grp: 'open', ar: 'ERIC (التربية)', en: 'ERIC (education)', build: function(q) { return 'https://eric.ed.gov/?q=' + encodeURIComponent(q); } },
+                worldcat: { grp: 'open', ar: 'WorldCat (فهرس المكتبات)', en: 'WorldCat (library catalogue)', build: function(q) { return 'https://search.worldcat.org/search?q=' + encodeURIComponent(q); } },
+                openlib: { grp: 'open', ar: 'Open Library (كتب مستعارة قانونيًا)', en: 'Open Library', build: function(q) { return 'https://openlibrary.org/search?q=' + encodeURIComponent(q); } }
             };
             var FIELDS = {
                 all: { ar: 'جميع المجالات', en: 'All fields', boost: '' },
@@ -426,7 +434,7 @@
             var D = {
                 ar: {
                     brand: 'إسناد', tag: 'منصة العلم والمصدر',
-                    proto: 'نسخة متصلة 2.3',
+                    proto: 'نسخة متصلة 2.4',
                     searchPh: 'اكتب أي موضوع، عنوان، مؤلف أو DOI…', search: 'بحث',
                     ai: 'إظهار الملخص والمصطلحات', aiHint: 'يعرض ملخص العمل الفعلي كما ورد في قاعدة البيانات',
                     from: 'من سنة', to: 'إلى سنة', field: 'توجيه المجال (اختياري)', sort: 'الترتيب',
@@ -444,7 +452,7 @@
                     printT: 'قائمة المراجع — إسناد', printNote: 'مولّدة آلياً بصيغة',
                     aiQ: '✦ جرّب موضوعاً عشوائياً', cites: 'استشهاد',
                     empty: 'لا توجد نتائج مطابقة من القواعد الحية — جرّب توسيع نطاق السنوات، تقليل عوامل التصفية، أو صياغة أدق للعبارة.',
-                    gsHint: 'يفتح Google Scholar في نافذة جديدة بنفس العبارة ونطاق السنوات (لا توجد واجهة برمجية عامة)', srcLabel: 'قواعد البيانات المتصلة الآن', all: 'الكل',
+                    grpAr: 'مصادر عربية', grpOpen: 'مصادر عامة ومفتوحة', copyNote: 'هذا الموقع لا يقبل العبارة في الرابط: تُنسخ عبارة البحث تلقائيًا، الصقها في خانة البحث هناك', gsHint: 'يفتح Google Scholar في نافذة جديدة بنفس العبارة ونطاق السنوات (لا توجد واجهة برمجية عامة)', srcLabel: 'قواعد البيانات المتصلة الآن', all: 'الكل',
                     startPrompt: 'اكتب أي موضوع (تقني، طبي، تربوي، إنساني…) واضغط بحث — سيتم الاستعلام مباشرة من قواعد بيانات علمية حقيقية.',
                     searching: 'جارٍ الاستعلام من القواعد الحية…', noAbs: 'لا يتوفر ملخص لهذا العمل من قاعدة البيانات المصدر.',
                     partialErr: 'تعذّر الوصول الآن إلى: ',
@@ -453,7 +461,7 @@
                 },
                 en: {
                     brand: 'Isnad', tag: 'The Knowledge & Source Platform',
-                    proto: 'Connected build 2.3',
+                    proto: 'Connected build 2.4',
                     searchPh: 'Search any topic, title, author or DOI…', search: 'Search',
                     ai: 'Show summary & terms', aiHint: "Shows the work's actual abstract as returned by the database",
                     from: 'From year', to: 'To year', field: 'Field boost (optional)', sort: 'Sort by',
@@ -470,7 +478,7 @@
                     printT: 'Reference list — Isnad platform', printNote: 'Auto-generated in',
                     aiQ: '✦ Try a random topic', cites: 'citations',
                     empty: 'No matching live results — try widening the year range, reducing filters, or rephrasing the query.',
-                    gsHint: 'Opens Google Scholar in a new tab with the same query and year range (no public API exists)', srcLabel: 'Databases currently connected', all: 'All',
+                    grpAr: 'Arabic sources', grpOpen: 'General & open sources', copyNote: 'This site cannot take the query in the link: your query is copied automatically, paste it into its search box', gsHint: 'Opens Google Scholar in a new tab with the same query and year range (no public API exists)', srcLabel: 'Databases currently connected', all: 'All',
                     startPrompt: 'Type any topic (technical, medical, educational, humanities…) and hit search — this queries real scholarly databases live.',
                     searching: 'Querying live databases…', noAbs: 'No abstract available for this work from the source database.',
                     partialErr: 'Could not reach right now: ',
@@ -967,9 +975,12 @@
                     h += '<div class="card" style="margin-bottom:16px">';
                     h += '<div style="font-size:13px;font-weight:700;margin-bottom:2px">' + t('extTitle') + '</div>';
                     h += '<div style="font-size:12px;color:#35566f;margin-bottom:10px">' + t('extHint') + '</div>';
-                    h += '<div style="display:flex;gap:8px;flex-wrap:wrap">' + Object.keys(EXT).map(function(k) {
-                        return '<a class="btn" target="_blank" rel="noopener noreferrer" href="' + EXT[k].build(state.q.trim()) + '">' + SVG.link + ' ' + EXT[k][L] + '</a>';
-                    }).join('') + '</div></div>';
+                    ['ar', 'open'].forEach(function(g) {
+                        h += '<div style="font-size:12px;font-weight:700;margin:8px 0 6px">' + t(g === 'ar' ? 'grpAr' : 'grpOpen') + '</div><div style="display:flex;gap:8px;flex-wrap:wrap">' + Object.keys(EXT).filter(function(k) { return EXT[k].grp === g; }).map(function(k) {
+                            return '<a class="btn" target="_blank" rel="noopener noreferrer" href="' + esc(EXT[k].build(state.q.trim())) + '"' + (EXT[k].copy ? ' data-copy="1" title="' + esc(t('copyNote')) + '"' : '') + '>' + SVG.link + ' ' + EXT[k][L] + (EXT[k].copy ? ' ⧉' : '') + '</a>';
+                        }).join('') + '</div>';
+                    });
+                    h += '<div style="font-size:11px;color:#35566f;margin-top:10px">⧉ ' + t('copyNote') + '</div></div>';
                 }
 
                 h += '<div class="grid"><div>';
@@ -1071,6 +1082,7 @@
                 var q = document.getElementById('q');
                 var goBtn = document.getElementById('goBtn');
                 var gsBtn = document.getElementById('gsBtn');
+                document.querySelectorAll('a[data-copy]').forEach(function(a) { a.onclick = function() { try { navigator.clipboard.writeText(state.q.trim()); } catch (e) {} }; });
                 if (gsBtn) gsBtn.onclick = function() { var qq = (document.getElementById('q') || {}).value || state.q; qq = (qq || '').trim(); if (!qq) return; window.open(scholarUrl(qq), '_blank', 'noopener'); };
                 function doSearch(e) { if (e) e.preventDefault(); if (state.loading) return; if (q) state.q = q.value.trim(); runSearch(); }
                 if (goBtn) goBtn.onclick = doSearch;
